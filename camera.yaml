@@ -1,9 +1,12 @@
 - platform: generic
   name: Hallway
+  still_image_url: https://marisa-home.duckdns.org/hallway.jpg
   stream_source: rtsp://127.0.0.1:8554/hallway
 - platform: generic
   name: Living Room
+  still_image_url: https://marisa-home.duckdns.org/living-room.jpg
   stream_source: rtsp://127.0.0.1:8554/living-room
 - platform: generic
   name: Bedroom
-  stream_source: rtsp://127.0.0.1:8554/bedroom
+  still_image_url: https://marisa-home.duckdns.org/bedroom.jpg
+  stream_source: http://127.0.0.1:8888/bedroom/stream.m3u8
