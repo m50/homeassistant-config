@@ -1,0 +1,425 @@
+- id: '1636770622333'
+  alias: FireTV Backlights
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: media_player.fire_tv
+    to: 'off'
+    id: tv_off
+  - platform: state
+    entity_id: media_player.fire_tv
+    id: tv_on
+    from: 'off'
+  condition: []
+  action:
+  - type: turn_off
+    device_id: 69b1ccedd2cc904b45e26ace20117573
+    entity_id: light.tv_backlights
+    domain: light
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: tv_off
+      sequence:
+      - type: turn_off
+        device_id: 69b1ccedd2cc904b45e26ace20117573
+        entity_id: light.tv_backlights
+        domain: light
+    - conditions:
+      - condition: trigger
+        id: tv_on
+      sequence:
+      - type: turn_on
+        device_id: 69b1ccedd2cc904b45e26ace20117573
+        entity_id: light.tv_backlights
+        domain: light
+    default: []
+  mode: single
+- id: '1636905254581'
+  alias: Bedroom Remote Control
+  description: ''
+  use_blueprint:
+    path: frenck/zha-ikea-five-button-remote-for-lights.yaml
+    input:
+      remote: f0574405ffb61d939f67270bd80027eb
+      light:
+        area_id: bedroom
+- id: '1636905441779'
+  alias: Bedroom Light Management
+  description: ''
+  trigger:
+  - device_id: 36ba91f41f19c8a6fa4d4f915da8020c
+    domain: zha
+    platform: device
+    type: remote_button_short_press
+    subtype: turn_off
+    id: light_switch_off
+  - platform: time
+    at: 00:00:00
+    id: midnight
+  - device_id: 36ba91f41f19c8a6fa4d4f915da8020c
+    domain: zha
+    platform: device
+    type: remote_button_short_press
+    subtype: turn_on
+    id: light_switch_on
+  - platform: time
+    at: '23:00:00'
+    id: 11pm
+  - device_id: 36ba91f41f19c8a6fa4d4f915da8020c
+    domain: zha
+    platform: device
+    type: remote_button_long_press
+    subtype: dim_up
+    id: light_switch_on_long_press
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: or
+        conditions:
+        - condition: trigger
+          id: light_switch_off
+        - condition: trigger
+          id: midnight
+      sequence:
+      - scene: scene.bedroom_lights_off
+    - conditions:
+      - condition: or
+        conditions:
+        - condition: and
+          conditions:
+          - condition: trigger
+            id: light_switch_on
+          - condition: sun
+            after: sunset
+        - condition: trigger
+          id: 11pm
+      sequence:
+      - scene: scene.bedroom_lights_low
+    - conditions:
+      - condition: or
+        conditions:
+        - condition: and
+          conditions:
+          - condition: trigger
+            id: light_switch_on
+          - condition: sun
+            before: sunset
+        - condition: trigger
+          id: light_switch_on_long_press
+      sequence:
+      - scene: scene.bedroom_lights_high
+    default: []
+  mode: single
+- id: '1636942701463'
+  alias: Kitchen Lights Sync
+  description: ''
+  trigger:
+  - platform: device
+    type: turned_on
+    device_id: c136c02ac81d79ade4781284c42869bc
+    entity_id: switch.kitchen_light
+    domain: switch
+    id: lights_on
+  - platform: device
+    type: turned_off
+    device_id: c136c02ac81d79ade4781284c42869bc
+    entity_id: switch.kitchen_light
+    domain: switch
+    id: lights_off
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: lights_on
+      sequence:
+      - type: turn_on
+        device_id: 344e7812953a6847df3d8527d9e86bd8
+        entity_id: light.fan_light_1
+        domain: light
+      - type: turn_on
+        device_id: 35807f1c961ef52564fc8671315f9c00
+        entity_id: light.fan_light_2
+        domain: light
+      - type: turn_on
+        device_id: f58957d7536a588f98369305882c9e6a
+        entity_id: light.fan_light_3
+        domain: light
+    - conditions:
+      - condition: trigger
+        id: lights_off
+      sequence:
+      - type: turn_off
+        device_id: 344e7812953a6847df3d8527d9e86bd8
+        entity_id: light.fan_light_1
+        domain: light
+      - type: turn_off
+        device_id: 35807f1c961ef52564fc8671315f9c00
+        entity_id: light.fan_light_2
+        domain: light
+      - type: turn_off
+        device_id: f58957d7536a588f98369305882c9e6a
+        entity_id: light.fan_light_3
+        domain: light
+    default: []
+  mode: single
+- id: '1636943258539'
+  alias: 'Hallway Button Pressed: Toggle Hallway Light'
+  description: ''
+  trigger:
+  - device_id: 3693d5d22387569ba41807c486903bbd
+    domain: zha
+    platform: device
+    type: remote_button_short_press
+    subtype: remote_button_short_press
+  condition: []
+  action:
+  - type: toggle
+    device_id: b71e4d4788bb167773237c28d61db7bb
+    entity_id: switch.hallway_light
+    domain: switch
+  mode: single
+- id: '1636944744118'
+  alias: Closet Light
+  description: ''
+  use_blueprint:
+    path: marisa/light-door-sensor.yaml
+    input:
+      door_entity: binary_sensor.closet_door_open
+      light_target:
+        area_id: bedroom_closet
+- id: '1636946338689'
+  alias: Bedroom Kick lights
+  description: ''
+  use_blueprint:
+    path: homeassistant/motion_light.yaml
+    input:
+      motion_entity: binary_sensor.foot_motion
+      light_target:
+        device_id: f034f5f14e7def41bff7eac1708f3882
+      no_motion_wait: 30
+      only_when_dark: true
+- id: '1636956355316'
+  alias: Remote Control Fairy Lights
+  description: ''
+  trigger:
+  - device_id: f0574405ffb61d939f67270bd80027eb
+    domain: zha
+    platform: device
+    type: remote_button_short_press
+    subtype: turn_on
+  condition: []
+  action:
+  - type: toggle
+    device_id: e7ab46b05b6bc6bf88eb601cd0a491a3
+    entity_id: switch.fairy_lights
+    domain: switch
+  mode: single
+- id: '1636996449089'
+  alias: Study Lights
+  description: ''
+  trigger:
+  - type: turned_on
+    platform: device
+    device_id: 907e341d89c5be672843b14a188fd193
+    entity_id: binary_sensor.macbook_active
+    domain: binary_sensor
+    id: macbook_active
+  - type: turned_off
+    platform: device
+    device_id: 907e341d89c5be672843b14a188fd193
+    entity_id: binary_sensor.macbook_active
+    domain: binary_sensor
+    id: macbook_inactive
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: macbook_active
+      sequence:
+      - type: turn_on
+        device_id: bf9e68dfb382267abb0c244d9929360e
+        entity_id: light.lamp
+        domain: light
+      - type: turn_on
+        device_id: cbfe7f94d75c71a41271077c0554c814
+        entity_id: light.desk_lamp
+        domain: light
+    - conditions:
+      - condition: trigger
+        id: macbook_inactive
+      sequence:
+      - type: turn_off
+        device_id: bf9e68dfb382267abb0c244d9929360e
+        entity_id: light.lamp
+        domain: light
+      - type: turn_off
+        device_id: cbfe7f94d75c71a41271077c0554c814
+        entity_id: light.desk_lamp
+        domain: light
+    default: []
+  mode: restart
+- id: '1637124125495'
+  alias: 'Arrive Home: Hallway Light On'
+  description: ''
+  trigger:
+  - platform: device
+    device_id: af582cd7defcd1e5dc2536abf014a61d
+    domain: device_tracker
+    entity_id: device_tracker.marisa_phone
+    type: enters
+    zone: zone.home
+  condition: []
+  action:
+  - wait_for_trigger:
+    - type: opened
+      platform: device
+      device_id: 9ff0d7a4667b067396237b8b9aaa6b3c
+      entity_id: binary_sensor.front_door_open
+      domain: binary_sensor
+  - service: tts.cloud_say
+    data:
+      entity_id: media_player.kitchen
+      message: Welcome Home!
+      cache: true
+  - type: turn_on
+    device_id: b71e4d4788bb167773237c28d61db7bb
+    entity_id: switch.hallway_light
+    domain: switch
+  - delay:
+      hours: 0
+      minutes: 1
+      seconds: 0
+      milliseconds: 0
+  - type: turn_off
+    device_id: b71e4d4788bb167773237c28d61db7bb
+    entity_id: switch.hallway_light
+    domain: switch
+  mode: single
+- id: '1637429968086'
+  alias: Kitchen Motion Lights
+  description: ''
+  trigger:
+  - type: motion
+    platform: device
+    device_id: 962c98d6430a6688cbf465747c5a0e7a
+    entity_id: binary_sensor.kitchen_motion
+    domain: binary_sensor
+  condition:
+  - condition: state
+    entity_id: input_select.system_mode
+    state: Home
+  action:
+  - type: turn_on
+    device_id: c136c02ac81d79ade4781284c42869bc
+    entity_id: switch.kitchen_light
+    domain: switch
+  - wait_for_trigger:
+    - type: no_motion
+      platform: device
+      device_id: 962c98d6430a6688cbf465747c5a0e7a
+      entity_id: binary_sensor.kitchen_motion
+      domain: binary_sensor
+    continue_on_timeout: false
+  - delay:
+      hours: 0
+      minutes: 1
+      seconds: 0
+      milliseconds: 0
+  - type: turn_off
+    device_id: c136c02ac81d79ade4781284c42869bc
+    entity_id: switch.kitchen_light
+    domain: switch
+  mode: restart
+- id: '1637541122091'
+  alias: Dishwasher
+  description: ''
+  trigger:
+  - type: vibration
+    platform: device
+    device_id: c0fe99b3a4b88f11782ba732dd0d4211
+    entity_id: binary_sensor.dish_washer_vibration
+    domain: binary_sensor
+    for:
+      hours: 0
+      minutes: 5
+      seconds: 0
+      milliseconds: 0
+  condition: []
+  action:
+  - service: input_select.select_option
+    target:
+      entity_id: input_select.dishwasher_mode
+    data:
+      option: running
+  - wait_for_trigger:
+    - type: no_vibration
+      platform: device
+      device_id: c0fe99b3a4b88f11782ba732dd0d4211
+      entity_id: binary_sensor.dish_washer_vibration
+      domain: binary_sensor
+    continue_on_timeout: false
+  - service: input_select.select_option
+    target:
+      entity_id: input_select.dishwasher_mode
+    data:
+      option: clean
+  - wait_for_trigger:
+    - type: opened
+      platform: device
+      device_id: c95ddec5632bf07e72631a6f4d428fe5
+      entity_id: binary_sensor.dishwasher_door
+      domain: binary_sensor
+    continue_on_timeout: false
+  - service: input_select.select_option
+    target:
+      entity_id: input_select.dishwasher_mode
+    data:
+      option: loading
+  mode: single
+  max: 10
+- id: '1637817372671'
+  alias: Lights off at midnight
+  description: ''
+  trigger:
+  - platform: time
+    at: 00:00:00
+  condition: []
+  action:
+  - scene: scene.bedroom_lights_off
+  - type: turn_off
+    device_id: c136c02ac81d79ade4781284c42869bc
+    entity_id: switch.kitchen_light
+    domain: switch
+  - type: turn_off
+    device_id: 69b1ccedd2cc904b45e26ace20117573
+    entity_id: light.tv_backlights
+    domain: light
+  - type: turn_off
+    device_id: 09d911bf1269455d7b6e302e06eea4ea
+    entity_id: light.couch_lamp
+    domain: light
+  - type: turn_off
+    device_id: cbfe7f94d75c71a41271077c0554c814
+    entity_id: light.desk_lamp
+    domain: light
+  - type: turn_off
+    device_id: b5bab84823b70c1214acc60cee91996f
+    entity_id: light.rectangulamp
+    domain: light
+  - type: turn_off
+    device_id: bf9e68dfb382267abb0c244d9929360e
+    entity_id: light.lamp
+    domain: light
+  - type: turn_off
+    device_id: c10e8b604af4f4c22e62f377c6ecca87
+    entity_id: switch.cube_light_on_off
+    domain: switch
+  - type: turn_off
+    device_id: b71e4d4788bb167773237c28d61db7bb
+    entity_id: switch.hallway_light
+    domain: switch
+  mode: single

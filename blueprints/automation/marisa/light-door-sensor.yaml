@@ -1,0 +1,43 @@
+blueprint:
+  name: Door-activate Light
+  description: Turn on a light when a door is opened.
+  domain: automation
+  source_url: https://github.com/home-assistant/core/blob/dev/homeassistant/components/automation/blueprints/motion_light.yaml
+  input:
+    door_entity:
+      name: Door Sensor
+      selector:
+        entity:
+          domain: binary_sensor
+          device_class: door
+    light_target:
+      name: Light
+      selector:
+        target:
+          entity: 
+            domain: light
+
+# If motion is detected within the delay,
+# we restart the script.
+mode: restart
+max_exceeded: silent
+
+trigger:
+  platform: state
+  entity_id: !input door_entity
+  from: "off"
+  to: "on"
+
+action:
+  - alias: "Turn on the light"
+    service: light.turn_on
+    target: !input light_target
+  - alias: "Wait until there is no motion from device"
+    wait_for_trigger:
+      platform: state
+      entity_id: !input door_entity
+      from: "on"
+      to: "off"
+  - alias: "Turn off the light"
+    service: light.turn_off
+    target: !input light_target

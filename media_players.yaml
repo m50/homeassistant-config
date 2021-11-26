@@ -1,0 +1,4 @@
+- platform: androidtv
+  name: Fire TV
+  host: 192.168.68.68
+  device_class: firetv

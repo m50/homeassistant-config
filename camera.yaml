@@ -1,0 +1,9 @@
+- platform: generic
+  name: Hallway
+  stream_source: rtsp://127.0.0.1:8554/hallway
+- platform: generic
+  name: Living Room
+  stream_source: rtsp://127.0.0.1:8554/living-room
+- platform: generic
+  name: Bedroom
+  stream_source: rtsp://127.0.0.1:8554/bedroom

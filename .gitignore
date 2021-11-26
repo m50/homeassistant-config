@@ -1,0 +1,11 @@
+*.db
+*.log
+*.log.*
+.HA_VERSION
+*.db-*
+secrets.yaml
+.*/
+tts/*
+www/*
+wyze-bridge/*
+custom_components/

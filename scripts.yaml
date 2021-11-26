@@ -1,0 +1,13 @@
+alert_phone:
+  sequence:
+  - service: notify.mobile_app_marisa_s_galaxy
+    data:
+      title: Home Assistant is helping you search for your phone.
+      data:
+        ttl: 0
+        priority: high
+        channel: alarm_stream
+      message: Phone Hunt
+  mode: single
+  alias: Alert Phone
+  icon: mdi:alarm-light
