@@ -35,18 +35,9 @@
         domain: light
     default: []
   mode: single
-- id: '1636905254581'
-  alias: Bedroom Remote Control
-  description: ''
-  use_blueprint:
-    path: frenck/zha-ikea-five-button-remote-for-lights.yaml
-    input:
-      remote: f0574405ffb61d939f67270bd80027eb
-      light:
-        area_id: bedroom
 - id: '1636905441779'
   alias: Bedroom Light Management
-  description: ''
+  description: Control bedroom lights based on time of day and buttons pressed.
   trigger:
   - device_id: 36ba91f41f19c8a6fa4d4f915da8020c
     domain: zha
@@ -72,6 +63,24 @@
     type: remote_button_long_press
     subtype: dim_up
     id: light_switch_on_long_press
+  - device_id: f0574405ffb61d939f67270bd80027eb
+    domain: zha
+    platform: device
+    type: remote_button_short_press
+    subtype: turn_on
+    id: remote_toggle
+  - device_id: f0574405ffb61d939f67270bd80027eb
+    domain: zha
+    platform: device
+    type: remote_button_short_press
+    subtype: dim_up
+    id: remote_up
+  - device_id: f0574405ffb61d939f67270bd80027eb
+    domain: zha
+    platform: device
+    type: remote_button_short_press
+    subtype: dim_down
+    id: remote_down
   condition: []
   action:
   - choose:
@@ -82,6 +91,15 @@
           id: light_switch_off
         - condition: trigger
           id: midnight
+        - condition: and
+          conditions:
+          - condition: trigger
+            id: remote_toggle
+          - condition: device
+            type: is_on
+            device_id: e7ab46b05b6bc6bf88eb601cd0a491a3
+            entity_id: switch.fairy_lights
+            domain: switch
       sequence:
       - scene: scene.bedroom_lights_off
     - conditions:
@@ -89,10 +107,27 @@
         conditions:
         - condition: and
           conditions:
-          - condition: trigger
-            id: light_switch_on
-          - condition: sun
-            after: sunset
+          - condition: or
+            conditions:
+            - condition: trigger
+              id: light_switch_on
+            - condition: and
+              conditions:
+              - condition: trigger
+                id: remote_toggle
+              - condition: device
+                type: is_off
+                device_id: e7ab46b05b6bc6bf88eb601cd0a491a3
+                entity_id: switch.fairy_lights
+                domain: switch
+            - condition: trigger
+              id: remote_down
+          - condition: or
+            conditions:
+            - condition: sun
+              before: sunrise
+            - condition: sun
+              after: sunset
         - condition: trigger
           id: 11pm
       sequence:
@@ -102,16 +137,34 @@
         conditions:
         - condition: and
           conditions:
-          - condition: trigger
-            id: light_switch_on
-          - condition: sun
-            before: sunset
+          - condition: or
+            conditions:
+            - condition: trigger
+              id: light_switch_on
+            - condition: and
+              conditions:
+              - condition: trigger
+                id: remote_toggle
+              - condition: device
+                type: is_off
+                device_id: e7ab46b05b6bc6bf88eb601cd0a491a3
+                entity_id: switch.fairy_lights
+                domain: switch
+          - condition: or
+            conditions:
+            - condition: sun
+              before: sunset
+            - condition: sun
+              after: sunrise
         - condition: trigger
           id: light_switch_on_long_press
+        - condition: trigger
+          id: remote_up
       sequence:
       - scene: scene.bedroom_lights_high
     default: []
-  mode: single
+  mode: queued
+  max: 10
 - id: '1636942701463'
   alias: Kitchen Lights Sync
   description: ''
@@ -181,15 +234,6 @@
     entity_id: switch.hallway_light
     domain: switch
   mode: single
-- id: '1636944744118'
-  alias: Closet Light
-  description: ''
-  use_blueprint:
-    path: marisa/light-door-sensor.yaml
-    input:
-      door_entity: binary_sensor.closet_door_open
-      light_target:
-        area_id: bedroom_closet
 - id: '1636946338689'
   alias: Bedroom Kick lights
   description: ''
@@ -201,22 +245,6 @@
         device_id: f034f5f14e7def41bff7eac1708f3882
       no_motion_wait: 30
       only_when_dark: true
-- id: '1636956355316'
-  alias: Remote Control Fairy Lights
-  description: ''
-  trigger:
-  - device_id: f0574405ffb61d939f67270bd80027eb
-    domain: zha
-    platform: device
-    type: remote_button_short_press
-    subtype: turn_on
-  condition: []
-  action:
-  - type: toggle
-    device_id: e7ab46b05b6bc6bf88eb601cd0a491a3
-    entity_id: switch.fairy_lights
-    domain: switch
-  mode: single
 - id: '1636996449089'
   alias: Study Lights
   description: ''
@@ -407,6 +435,84 @@
     - conditions:
       - condition: trigger
         id: sunset
+      sequence:
+      - device_id: d9d9e42e45e105ad8b430a2618b8e8df
+        domain: cover
+        entity_id: cover.bedroom_side_blinds
+        type: set_position
+        position: 0
+    default: []
+  mode: single
+- id: '1638224503187'
+  alias: Closet Light
+  description: ''
+  trigger:
+  - type: opened
+    platform: device
+    device_id: 24f0cbaa146a7cf8102c68fdc0341b09
+    entity_id: binary_sensor.closet_door_open
+    domain: binary_sensor
+    id: door_open
+  - type: not_opened
+    platform: device
+    device_id: 24f0cbaa146a7cf8102c68fdc0341b09
+    entity_id: binary_sensor.closet_door_open
+    domain: binary_sensor
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: door_open
+      sequence:
+      - type: turn_on
+        device_id: 50288c95c83a403ec3e68cb488b6e97f
+        entity_id: light.closet_light
+        domain: light
+    default:
+    - type: turn_off
+      device_id: 50288c95c83a403ec3e68cb488b6e97f
+      entity_id: light.closet_light
+      domain: light
+  mode: queued
+  max: 10
+- id: '1638226343221'
+  alias: Toggle Bedroom Blinds
+  description: ''
+  trigger:
+  - device_id: 3693d5d22387569ba41807c486903bbd
+    domain: zha
+    platform: device
+    type: remote_button_long_press
+    subtype: remote_button_long_press
+  - device_id: 36ba91f41f19c8a6fa4d4f915da8020c
+    domain: zha
+    platform: device
+    type: remote_button_long_press
+    subtype: dim_down
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: device
+        device_id: d9d9e42e45e105ad8b430a2618b8e8df
+        domain: cover
+        entity_id: cover.bedroom_side_blinds
+        type: is_position
+        below: 7
+      sequence:
+      - device_id: d9d9e42e45e105ad8b430a2618b8e8df
+        domain: cover
+        entity_id: cover.bedroom_side_blinds
+        type: set_position
+        position: 100
+    - conditions:
+      - condition: device
+        device_id: d9d9e42e45e105ad8b430a2618b8e8df
+        domain: cover
+        entity_id: cover.bedroom_side_blinds
+        type: is_position
+        above: 93
       sequence:
       - device_id: d9d9e42e45e105ad8b430a2618b8e8df
         domain: cover
