@@ -1,4 +1,4 @@
 - platform: androidtv
   name: Fire TV
-  host: 192.168.68.68
+  host: !secret firetv_url
   device_class: firetv

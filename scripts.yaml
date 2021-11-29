@@ -1,6 +1,6 @@
 alert_phone:
   sequence:
-  - service: notify.mobile_app_marisa_s_galaxy
+  - service: notify.mobile_app_marisa_s20
     data:
       title: Home Assistant is helping you search for your phone.
       data:

@@ -323,7 +323,8 @@
       device_id: 962c98d6430a6688cbf465747c5a0e7a
       entity_id: binary_sensor.kitchen_motion
       domain: binary_sensor
-    continue_on_timeout: false
+    continue_on_timeout: true
+    timeout: 00:25:00
   - delay:
       hours: 0
       minutes: 1
@@ -334,53 +335,6 @@
     entity_id: switch.kitchen_light
     domain: switch
   mode: restart
-- id: '1637541122091'
-  alias: Dishwasher
-  description: ''
-  trigger:
-  - type: vibration
-    platform: device
-    device_id: c0fe99b3a4b88f11782ba732dd0d4211
-    entity_id: binary_sensor.dish_washer_vibration
-    domain: binary_sensor
-    for:
-      hours: 0
-      minutes: 5
-      seconds: 0
-      milliseconds: 0
-  condition: []
-  action:
-  - service: input_select.select_option
-    target:
-      entity_id: input_select.dishwasher_mode
-    data:
-      option: running
-  - wait_for_trigger:
-    - type: no_vibration
-      platform: device
-      device_id: c0fe99b3a4b88f11782ba732dd0d4211
-      entity_id: binary_sensor.dish_washer_vibration
-      domain: binary_sensor
-    continue_on_timeout: false
-  - service: input_select.select_option
-    target:
-      entity_id: input_select.dishwasher_mode
-    data:
-      option: clean
-  - wait_for_trigger:
-    - type: opened
-      platform: device
-      device_id: c95ddec5632bf07e72631a6f4d428fe5
-      entity_id: binary_sensor.dishwasher_door
-      domain: binary_sensor
-    continue_on_timeout: false
-  - service: input_select.select_option
-    target:
-      entity_id: input_select.dishwasher_mode
-    data:
-      option: loading
-  mode: single
-  max: 10
 - id: '1637817372671'
   alias: Lights off at midnight
   description: ''
@@ -422,4 +376,42 @@
     device_id: b71e4d4788bb167773237c28d61db7bb
     entity_id: switch.hallway_light
     domain: switch
+  - type: turn_off
+    device_id: f84cd5c0ed24eaf6c3a25c4f7046b484
+    entity_id: switch.christmas_tree_on_off
+    domain: switch
+  mode: single
+- id: '1637979359844'
+  alias: Automatic Blinds
+  description: ''
+  trigger:
+  - platform: sun
+    event: sunrise
+    id: sunrise
+    offset: '-45'
+  - platform: sun
+    event: sunset
+    id: sunset
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: sunrise
+      sequence:
+      - device_id: d9d9e42e45e105ad8b430a2618b8e8df
+        domain: cover
+        entity_id: cover.bedroom_side_blinds
+        type: set_position
+        position: 100
+    - conditions:
+      - condition: trigger
+        id: sunset
+      sequence:
+      - device_id: d9d9e42e45e105ad8b430a2618b8e8df
+        domain: cover
+        entity_id: cover.bedroom_side_blinds
+        type: set_position
+        position: 0
+    default: []
   mode: single
