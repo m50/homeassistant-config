@@ -1,0 +1,12 @@
+type: custom:stack-in-card
+view_layout:
+  grid-area: hallway
+title: Hallway
+cards:
+- type: sensor
+  graph: line
+  entity: sensor.hallway_temperature
+- type: entities
+  title: Lights
+  entities:
+    - entity: switch.hallway_light

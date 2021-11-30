@@ -1,0 +1,62 @@
+type: vertical-stack
+view_layout:
+  grid-area: sidebar
+cards:
+- type: custom:search-card
+  card_mod:
+    style: |
+      ha-card {
+        box-shadow: none;
+        background: none;
+      }
+- type: weather-forecast
+  entity: weather.home
+  card_mod:
+    style: |
+      ha-card {
+        box-shadow: none;
+        background: none;
+      }
+- type: custom:mini-media-player
+  entity: media_player.study
+  toggle_power: true
+  volume_stateless: false
+  group: false
+  sound_mode: icon
+  source: icon
+  info: scroll
+  speaker_group:
+    platform: sonos
+    entities:
+      - entity_id: media_player.study
+        name: Study
+      - entity_id: media_player.kitchen
+        name: Kitchen
+      - entity_id: media_player.bedroom
+        name: Bedroom
+      - entity_id: media_player.bathroom
+        name: Bathroom
+  artwork: cover
+  card_mod:
+    style: |
+      ha-card {
+        box-shadow: none;
+        background: none;
+      }
+- type: sensor
+  graph: line
+  entity: sensor.average_temperature
+  card_mod:
+    style: |
+      ha-card {
+        box-shadow: none;
+        background: none;
+      }
+- type: thermostat
+  entity: climate.thermostat
+  card_mod:
+    style: |
+      ha-card {
+        box-shadow: none;
+        background: none;
+      }

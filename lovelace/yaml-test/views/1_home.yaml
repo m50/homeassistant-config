@@ -1,0 +1,236 @@
+- title: Home
+  cards:
+    - type: custom:mini-media-player
+      entity: media_player.study
+      toggle_power: true
+      volume_stateless: false
+      group: false
+      sound_mode: icon
+      source: icon
+      info: scroll
+      speaker_group:
+        platform: sonos
+        entities:
+          - entity_id: media_player.study
+            name: Study
+          - entity_id: media_player.kitchen
+            name: Kitchen
+          - entity_id: media_player.bedroom
+            name: Bedroom
+          - entity_id: media_player.bathroom
+            name: Bathroom
+      artwork: cover
+    - type: custom:stack-in-card
+      title: Bedroom
+      cards:
+        - type: horizontal-stack
+          cards:
+            - type: button
+              tap_action:
+                action: call-service
+                service: scene.turn_on
+                service_data: {}
+                target:
+                  entity_id: scene.bedroom_lights_off
+              entity: scene.bedroom_lights_off
+              show_name: true
+              name: 'Off'
+            - type: button
+              tap_action:
+                action: call-service
+                service: scene.turn_on
+                service_data: {}
+                target:
+                  entity_id: scene.bedroom_lights_low
+              entity: scene.bedroom_lights_low
+              name: Low
+            - type: button
+              tap_action:
+                action: call-service
+                service: scene.turn_on
+                service_data: {}
+                target:
+                  entity_id: scene.bedroom_lights_high
+              entity: scene.bedroom_lights_high
+              name: High
+        - type: entities
+          entities:
+            - entity: light.laundry_light
+            - entity: light.nightstand_lamp
+            - entity: light.right_nightstand_lamp_level_light_color_on_off
+            - entity: switch.fairy_lights
+            - entity: light.bed_underglow
+    - type: entities
+      entities:
+        - entity: input_select.system_mode
+    - type: custom:stack-in-card
+      cards:
+        - type: horizontal-stack
+          cards:
+            - type: markdown
+              content: '## Bedroom'
+              card_mod:
+                style: |
+                  ha-card {
+                    display: flex;
+                    align-items: center;
+                  }
+            - type: conditional
+              conditions:
+                - entity: light.nightstand_lamp
+                  state: 'on'
+              card:
+                type: button
+                card_mod:
+                  style: |
+                    ha-card.type-button {
+                      box-shadow: none;
+                      float: right;
+                      height: 80px;
+                      width: 80px;
+                    }
+                tap_action:
+                  action: call-service
+                  service: scene.turn_on
+                  service_data: {}
+                  target:
+                    entity_id: scene.bedroom_lights_off
+                entity: scene.bedroom_lights_off
+                show_name: false
+                name: 'Off'
+            - type: conditional
+              conditions:
+                - entity: sun.sun
+                  state: above_horizon
+                - entity: light.nightstand_lamp
+                  state: 'off'
+              card:
+                type: button
+                card_mod:
+                  style: |
+                    ha-card.type-button {
+                      box-shadow: none;
+                      float: right;
+                      height: 80px;
+                      width: 80px;
+                    }
+                tap_action:
+                  action: call-service
+                  service: scene.turn_on
+                  service_data: {}
+                  target:
+                    entity_id: scene.bedroom_lights_high
+                entity: scene.bedroom_lights_high
+                name: High
+                show_name: false
+            - type: conditional
+              conditions:
+                - entity: sun.sun
+                  state_not: above_horizon
+                - entity: light.nightstand_lamp
+                  state: 'off'
+              card:
+                type: button
+                card_mod:
+                  style: |
+                    ha-card.type-button {
+                      box-shadow: none;
+                      float: right;
+                      height: 80px;
+                      width: 80px;
+                    }
+                tap_action:
+                  action: call-service
+                  service: scene.turn_on
+                  service_data: {}
+                  target:
+                    entity_id: scene.bedroom_lights_low
+                entity: scene.bedroom_lights_low
+                name: Low
+                show_name: false
+        - type: entities
+          entities:
+            - entity: light.laundry_light
+            - entity: light.nightstand_lamp
+            - entity: light.right_nightstand_lamp_level_light_color_on_off
+            - entity: switch.fairy_lights
+            - entity: light.bed_underglow
+    - type: custom:stack-in-card
+      card_mod:
+        style: |
+          ha-card {
+            margin: 2rem 4rem;
+          }
+      cards:
+        - type: horizontal-stack
+          cards:
+            - type: custom:button-card
+              entity: light.lamp
+              show_name: false
+              size: 8rem
+              tap_action: {}
+              styles:
+                card:
+                  - '--mdc-ripple-press-opacity': 0
+              state:
+                - value: 'on'
+                  styles:
+                    icon:
+                      - color: orange
+                - value: 'off'
+                  styles:
+                    icon:
+                      - color: grey
+            - type: custom:button-card
+              color_type: blank-card
+            - type: custom:button-card
+              icon: mdi:power
+              entity: light.lamp
+              show_name: false
+              styles:
+                card:
+                  - width: 6rem
+                  - height: 6rem
+                  - '--mdc-ripple-press-opacity': 0
+                icon:
+                  - background-color: rgb(50, 50, 50, 0.1)
+                  - border-radius: 100%
+                  - width: 4rem
+                  - height: 4rem
+              state:
+                - value: 'on'
+                  styles:
+                    icon:
+                      - color: black
+                - value: 'off'
+                  styles:
+                    icon:
+                      - color: black
+        - type: markdown
+          card_mod:
+            style: |
+              ha-card {
+                background: none;
+              }
+              ha-card > ha-markdown {
+                padding-bottom: 0;
+                background: none;
+              }
+          content: |
+            # {{ state_attr('light.lamp', 'friendly_name') }}
+        - type: markdown
+          header: |
+            {{ state_attr('light.lamp', 'friendly_name') }}
+          card_mod:
+            style: |
+              ha-card {
+                color: gray;
+                background: none;
+                margin-top: -10px;
+              }
+              ha-card > ha-markdown {
+                background: none;
+                padding-top: 0px;
+              }
+          content: |
+            ## {{ states('light.lamp') | capitalize }}

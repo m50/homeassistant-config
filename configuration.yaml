@@ -31,3 +31,13 @@ media_player: !include includes/media_players.yaml
 spotify:
   client_id: !secret spotify_client_id
   client_secret: !secret spotify_client_secret
+
+lovelace:
+  mode: storage
+  dashboards:
+    lovelace-yaml-test:
+      mode: yaml
+      title: YAML Test
+      icon: mdi:script
+      show_in_sidebar: true
+      filename: lovelace/yaml-test/main.yaml
