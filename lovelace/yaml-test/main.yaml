@@ -1,3 +1,2 @@
 title: 'Test Board'
 views: !include_dir_list views
-

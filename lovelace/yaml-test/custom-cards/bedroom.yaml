@@ -3,9 +3,6 @@ view_layout:
   grid-area: bedroom
 title: Bedroom
 cards:
-- type: sensor
-  graph: line
-  entity: sensor.bedroom_temperature
 - type: horizontal-stack
   cards:
     - type: button
@@ -51,6 +48,10 @@ cards:
           ha-card {
             box-shadow: none;
           }
+
+- type: sensor
+  graph: line
+  entity: sensor.bedroom_temperature
 - type: entities
   title: Lights
   entities:
