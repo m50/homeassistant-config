@@ -1,21 +1,21 @@
-- title: grid test
-  type: custom:grid-layout
-  path: grid-test
-  layout:
-    grid-gap: 10px
-    grid-template-columns: 20% repeat(3, 1fr) 10px
-    grid-template-rows: 10px repeat(2, fit-content(100%)) 0fr
-    grid-template-areas: |
-      "sidebar  .           .        .        ."
-      "sidebar  livingroom  bedroom  kitchen  ."
-      "sidebar  livingroom  bedroom  kitchen  ."
-      "sidebar  hallway     bedroom  study    ."
-  badges: []
-  cards:
-    - !include ../custom-cards/sidebar.yaml
-    - !include ../custom-cards/bedroom.yaml
-    - !include ../custom-cards/living-room.yaml
-    - !include ../custom-cards/kitchen.yaml
-    - !include ../custom-cards/study.yaml
-    - !include ../custom-cards/hallway.yaml
+title: grid test
+type: custom:grid-layout
+path: grid-test
+layout:
+  grid-gap: 10px
+  grid-template-columns: 20% repeat(3, 1fr) 10px
+  grid-template-rows: 10px repeat(2, fit-content(100%)) 0fr
+  grid-template-areas: |
+    "sidebar  .           .        .        ."
+    "sidebar  livingroom  bedroom  kitchen  ."
+    "sidebar  livingroom  bedroom  kitchen  ."
+    "sidebar  hallway     bedroom  study    ."
+badges: []
+cards:
+- !include ../custom-cards/sidebar.yaml
+- !include ../custom-cards/bedroom.yaml
+- !include ../custom-cards/living-room.yaml
+- !include ../custom-cards/kitchen.yaml
+- !include ../custom-cards/study.yaml
+- !include ../custom-cards/hallway.yaml
 
