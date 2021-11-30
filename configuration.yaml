@@ -9,10 +9,10 @@ group: !include groups.yaml
 automation: !include automations.yaml
 script: !include scripts.yaml
 scene: !include scenes.yaml
-sensor: !include sensors.yaml
-binary_sensor: !include binary_sensors.yaml
+sensor: !include includes/sensors.yaml
+binary_sensor: !include includes/binary_sensors.yaml
 prometheus:
-camera: !include camera.yaml
+camera: !include includes/camera.yaml
 http:
   ssl_certificate: /ssl/fullchain.pem
   ssl_key: /ssl/privkey.pem
@@ -21,12 +21,12 @@ http:
 python_script:
 
 homeassistant:
-  customize: !include customize.yaml
+  customize: !include includes/customize.yaml
 
 frontend:
   themes: !include_dir_merge_named themes
 
-media_player: !include media_players.yaml
+media_player: !include includes/media_players.yaml
 
 spotify:
   client_id: !secret spotify_client_id
