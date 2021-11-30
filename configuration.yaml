@@ -5,19 +5,25 @@ default_config:
 tts:
   - platform: google_translate
 
+automation ui: !include automations.yaml
+automation manual: !include_dir_merge_list includes/automations/
+script ui: !include scripts.yaml
+script manual: !include_dir_merge_list includes/scripts/
+scene ui: !include scenes.yaml
+scene manual: !include_dir_merge_list includes/scene/
+
 group: !include groups.yaml
-automation: !include automations.yaml
-script: !include scripts.yaml
-scene: !include scenes.yaml
 sensor: !include includes/sensors.yaml
 binary_sensor: !include includes/binary_sensors.yaml
-prometheus:
 camera: !include includes/camera.yaml
+media_player: !include includes/media_players.yaml
+
 http:
   ssl_certificate: /ssl/fullchain.pem
   ssl_key: /ssl/privkey.pem
   ip_ban_enabled: true
   login_attempts_threshold: 5
+
 python_script:
 
 homeassistant:
@@ -26,18 +32,8 @@ homeassistant:
 frontend:
   themes: !include_dir_merge_named themes
 
-media_player: !include includes/media_players.yaml
-
 spotify:
   client_id: !secret spotify_client_id
   client_secret: !secret spotify_client_secret
 
-lovelace:
-  mode: storage
-  dashboards:
-    lovelace-yaml-test:
-      mode: yaml
-      title: YAML Test
-      icon: mdi:script
-      show_in_sidebar: true
-      filename: lovelace/yaml-test/main.yaml
+lovelace: !include includes/lovelace.yaml
