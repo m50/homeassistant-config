@@ -39,13 +39,11 @@ cards:
       content: "## {{ states('sensor.study_temperature') }}°"
 - type: custom:button-card
   entity: light.desk_lamp
-  name: Desk Lamp
   template:
   - light
   - icon_entity
 - type: custom:button-card
   entity: light.lamp
-  name: Desk Lamp
   template:
   - light
   - icon_entity

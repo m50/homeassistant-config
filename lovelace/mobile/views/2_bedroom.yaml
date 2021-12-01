@@ -71,13 +71,11 @@ cards:
 
 - type: custom:button-card
   entity: light.nightstand_lamp
-  name: Left Nightstand Lamp
   template:
   - light
   - icon_entity
 - type: custom:button-card
   entity: light.right_nightstand_lamp_level_light_color_on_off
-  name: Right Nightstand Lamp
   template:
   - light
   - icon_entity
@@ -95,7 +93,6 @@ cards:
   - icon_entity
 - type: custom:button-card
   entity: switch.fairy_lights
-  name: Fairy Lights
   template:
   - base
   - icon_entity

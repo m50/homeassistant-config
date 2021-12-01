@@ -40,37 +40,31 @@ cards:
 
 - type: custom:button-card
   entity: switch.christmas_tree_on_off
-  name: Christmas Tree
   template:
   - base
   - icon_entity
 - type: custom:button-card
   entity: switch.cube_light_on_off
-  name: Cube Light
   template:
   - base
   - icon_entity
 - type: custom:button-card
   entity: light.shelves_backlight
-  name: Shelves Backlight
   template:
   - light
   - icon_entity
 - type: custom:button-card
   entity: light.tv_backlights
-  name: TV Backlights
   template:
   - light
   - icon_entity
 - type: custom:button-card
   entity: light.rectangulamp
-  name: Rectangulamp
   template:
   - light
   - icon_entity
 - type: custom:button-card
   entity: light.couch_lamp
-  name: Couch Lamp
   template:
   - light
   - icon_entity
