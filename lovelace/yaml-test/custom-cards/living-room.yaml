@@ -17,6 +17,7 @@ cards:
     - entity: light.rectangulamp
       type: custom:slider-entity-row
     - entity: switch.cube_light_on_off
+    - entity: switch.christmas_tree_on_off
     - entity: light.shelves_backlight
     - entity: light.tv_backlights
 

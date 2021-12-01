@@ -2,7 +2,13 @@ mode: storage
 dashboards:
   lovelace-yaml-test:
     mode: yaml
-    title: YAML Test
-    icon: mdi:script
+    title: Test Grounds
+    icon: mdi:test-tube
     show_in_sidebar: true
     filename: lovelace/yaml-test/main.yaml
+  lovelace-mobile-y:
+    mode: yaml
+    title: Mobile 2
+    icon: mdi:cellphone
+    show_in_sidebar: true
+    filename: lovelace/mobile/main.yaml

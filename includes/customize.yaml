@@ -2,3 +2,5 @@ binary_sensor.closet_door_open:
   device_class: door
 sensor.average_temperature:
   icon: mdi:thermometer
+switch.fairy_lights:
+  icon: mdi:string-lights

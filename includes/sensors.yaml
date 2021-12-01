@@ -9,3 +9,10 @@
     - sensor.living_room_2_temperature
     - sensor.study_temperature
     - sensor.bedroom_temperature
+- platform: min_max
+  name: Avg Living Room Temperature
+  type: mean
+  round_digits: 1
+  entity_ids:
+    - sensor.living_room_temperature
+    - sensor.living_room_2_temperature

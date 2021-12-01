@@ -1,4 +1,7 @@
-title: 'Test Board'
+title: 'Mobile'
+swipe_nav:
+  wrap: true
+  animate: swipe
+  prevent_default: true
 button_card_templates: !include ../button-card-templates.yaml
 views: !include_dir_list views
-
