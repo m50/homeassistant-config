@@ -1,13 +1,6 @@
 title: ''
 icon: mdi:home
 path: overview
-type: custom:grid-layout
-layout:
-  grid-gap: 5px
-  grid-template-columns: 1fr
-  grid-template-areas: |
-    "header"
-    ".     "
 cards:
 - type: custom:stack-in-card
   view_layout:
@@ -15,7 +8,7 @@ cards:
   style: |
     ha-card {
       border-radius: 0;
-      margin-top: 0;
+      margin-top: calc(var(--vertical-margin) * -1);
       margin-left: calc(var(--horizontal-margin) * -3);
       margin-right: calc(var(--horizontal-margin) * -3);
       background: var(--primary-color);
@@ -24,6 +17,7 @@ cards:
       --primary-text-color: white;
       --ha-card-box-shadow: none;
       --ha-card-background: none;
+      --masonry-view-card-margin: 0rem calc(var(--horizontal-margin) * 2);
     }
   cards:
   - type: custom:layout-card
@@ -41,7 +35,10 @@ cards:
 
         ## Weather:
     - type: markdown
-      content: "## {{ states('sensor.average_temperature') }}°"
+      content: |
+        ## {{ states('sensor.average_temperature') }}°
+
+        ### {{ as_timestamp(now()) | timestamp_custom("%I:%M%p") }}
       view_layout:
         justify-content: center
         align-items: center
@@ -50,8 +47,28 @@ cards:
       view_layout:
         grid-column: 1 / -1
 - type: custom:search-card
-  view_layout:
-    grid-column: 1 / -1
+
+- type: custom:mini-media-player
+  entity: media_player.study
+  toggle_power: true
+  volume_stateless: false
+  group: false
+  sound_mode: icon
+  source: icon
+  info: scroll
+  speaker_group:
+    platform: sonos
+    entities:
+      - entity_id: media_player.study
+        name: Study
+      - entity_id: media_player.kitchen
+        name: Kitchen
+      - entity_id: media_player.bedroom
+        name: Bedroom
+      - entity_id: media_player.bathroom
+        name: Bathroom
+  artwork: cover
+
 - type: custom:simple-thermostat
   entity: climate.thermostat
   layout:
@@ -59,5 +76,3 @@ cards:
   header: false
   control:
     - hvac
-  view_layout:
-    grid-column: 1 / -1
