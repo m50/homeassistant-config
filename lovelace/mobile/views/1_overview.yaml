@@ -32,8 +32,6 @@ cards:
         }
       content: |
         # Overview
-
-        ## Weather:
     - type: markdown
       content: |
         ## {{ states('sensor.average_temperature') }}°
