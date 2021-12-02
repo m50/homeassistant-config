@@ -88,70 +88,44 @@ base:
               'rgba(255, 255, 255, 0.8)';
           ]]]
   extra_styles: |
-    [[[
-      if (entity) {
-        let hs = entity.attributes.hs_color == undefined,
-          h = hs || entity.attributes.hs_color[0],
-          s = hs || entity.attributes.hs_color[1],
-          l_min = 28,
-          l_max = 48,
-          l_calc =
-            entity.attributes.brightness / 2.54 * (l_max - l_min) / 100 + l_min;
-        var light_color =
-          entity.attributes.color_mode === 'color_temp'
-            ? `hsl(204, 58%, ${l_calc}%);`
-            : `hsl(${h}, ${s}%, ${l_calc}%);`;
+    #container {
+      text-align: left !important;
+    }
+    #name, #state {
+      font-size: 0.8vw;
+      letter-spacing: 0.05vw;
+    }
+    /* portrait */
+    @media screen and (max-width: 1200px) {
+      #name, #state {
+        font-size: 2vw;
+        letter-spacing: 0.05vw;
       }
-      return `
-        svg {
-          --light-color:
-          ${ variables.state === 'on' && entity.attributes.brightness != undefined
-              ? light_color
-              : variables.state === 'on' && entity.attributes.brightness == undefined
-              ? 'var(--state-icon-active-color);'
-              : 'var(--state-icon-color);'
-          }
-        }
-        #container {
-          text-align: left !important;
-        }
-        #name, #state {
-          font-size: 0.8vw;
-          letter-spacing: 0.05vw;
-        }
-        /* portrait */
-        @media screen and (max-width: 1200px) {
-          #name, #state {
-            font-size: 2vw;
-            letter-spacing: 0.05vw;
-          }
-        }
-        /* phone */
-        @media screen and (max-width: 800px) {
-          #name, #state {
-            font-size: 3.1vw;
-            letter-spacing: 0.12vw;
-          }
-        }
-        @keyframes card_bounce {
-          0% {
-            transform: scale(1);
-          }
-          15% {
-            transform: scale(0.9);
-          }
-          25% {
-            transform: scale(1);
-          }
-          30% {
-            transform: scale(0.98);
-          }
-          100% {
-            transform: scale(1);
-          }
-        }
-      `
-    ]]]
+    }
+    /* phone */
+    @media screen and (max-width: 800px) {
+      #name, #state {
+        font-size: 3.1vw;
+        letter-spacing: 0.12vw;
+      }
+    }
+    @keyframes card_bounce {
+      0% {
+        transform: scale(1);
+      }
+      15% {
+        transform: scale(0.9);
+      }
+      25% {
+        transform: scale(1);
+      }
+      30% {
+        transform: scale(0.98);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
 
 #################################################
 #                    SIDEBAR                    #
@@ -717,4 +691,26 @@ icon_only:
 icon_entity:
   custom_fields:
     icon: >
-      [[[ return `<ha-icon icon="${entity.attributes.icon}" style="width: 50; height: 50; color: var(--primary-color);"></ha-icon>`; ]]]
+      [[[
+        if (entity) {
+          let hs = entity.attributes.hs_color == undefined,
+            h = hs || entity.attributes.hs_color[0],
+            s = hs || entity.attributes.hs_color[1],
+            l_min = 28,
+            l_max = 48,
+            l_calc = entity.attributes.brightness / 2.54 * (l_max - l_min) / 100 + l_min;
+          var light_color = entity.attributes.color_mode === 'color_temp'
+            ? `hsl(204, 58%, ${l_calc}%);`
+            : `hsl(${h}, ${s}%, ${l_calc}%);`;
+        }
+        var lightColor = 'var(--state-icon-color);';
+        if (variables.state === 'on') {
+          if (entity.attributes.brightness != undefined) {
+            lightColor = light_color;
+          } else if (entity.attributes.brightness == undefined) {
+            lightColor = 'var(--state-icon-active-color);';
+          }
+        }
+
+        return `<ha-icon icon="${entity.attributes.icon}" style="width: 50px; height: 50px; color: ${lightColor};"></ha-icon>`;
+      ]]]

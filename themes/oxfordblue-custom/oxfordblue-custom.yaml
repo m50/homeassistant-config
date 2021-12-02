@@ -12,6 +12,9 @@ oxfordblue-custom:
   accent-color: '#148e99'         # Accent color
   dark-primary-color: '#243a52'     # Hyperlinks
   light-primary-color: '#617d98'  # Horizontal line in about
+  # Icon colors
+  state-icon-active-color: var(--accent-color)
+  state-icon-color: var(--primary-color)
   # Text colors
   primary-text-color: '#102a42'      # Primary text color, here is referencing dark-primary-color
   text-primary-color: '#ffffff'   # Primary text color
