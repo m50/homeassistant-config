@@ -693,17 +693,16 @@ icon_entity:
     icon: >
       [[[
         if (entity) {
-          let hs = entity.attributes.hs_color == undefined,
-            h = hs || entity.attributes.hs_color[0],
-            s = hs || entity.attributes.hs_color[1],
-            l_min = 28,
-            l_max = 48,
-            l_calc = entity.attributes.brightness / 2.54 * (l_max - l_min) / 100 + l_min;
-          var light_color = entity.attributes.color_mode === 'color_temp'
-            ? `hsl(204, 58%, ${l_calc}%);`
-            : `hsl(${h}, ${s}%, ${l_calc}%);`;
+          const hs = entity.attributes.hs_color == undefined;
+          const h = hs || entity.attributes.hs_color[0];
+          const s = hs || entity.attributes.hs_color[1];
+          const l_min = 28;
+          const l_max = 48;
+          const l_calc = entity.attributes.brightness / 2.54 * (l_max - l_min) / 100 + l_min;
+
+          var light_color = `hsl(${h}, ${s}%, ${l_calc}%);`;
         }
-        var lightColor = 'var(--state-icon-color);';
+        let lightColor = 'var(--state-icon-color);';
         if (variables.state === 'on') {
           if (entity.attributes.brightness != undefined) {
             lightColor = light_color;
