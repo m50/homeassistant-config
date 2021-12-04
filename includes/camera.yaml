@@ -1,0 +1,12 @@
+- platform: generic
+  name: Living Room Shelves
+  still_image_url: /local/living-room.jpg
+  stream_source: !secret living_room_url
+- platform: generic
+  name: Bedroom
+  still_image_url: /local/bedroom.jpg
+  stream_source: !secret bedroom_url
+- platform: generic
+  name: Hallway
+  still_image_url: /local/hallway.jpg
+  stream_source: !secret hallway_url
