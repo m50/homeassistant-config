@@ -521,3 +521,17 @@
         position: 0
     default: []
   mode: single
+- id: '1638744616530'
+  alias: Turn on Christmas Tree in the morning
+  description: ''
+  trigger:
+  - platform: sun
+    event: sunrise
+    offset: '0'
+  condition: []
+  action:
+  - type: turn_on
+    device_id: f84cd5c0ed24eaf6c3a25c4f7046b484
+    entity_id: switch.christmas_tree_on_off
+    domain: switch
+  mode: single
