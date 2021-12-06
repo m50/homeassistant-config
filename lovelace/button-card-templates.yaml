@@ -13,38 +13,7 @@ base:
   aspect_ratio: 1/1
   show_state: true
   show_icon: false
-  state_display: >
-    [[[ if (variables.state === true) return 'Okänt'; ]]]
   tap_action:
-    ui_sound_tablet: |
-      [[[
-        let screensaver = states['switch.galaxy_tab_a_screensaver'] === undefined ||
-          states['switch.galaxy_tab_a_screensaver'].state;
-
-        if (variables.state === 'off' && screensaver === 'off') {
-          hass.callService('media_player', 'play_media', {
-            entity_id: 'media_player.browser_9c06ce87_d1cf313c',
-            media_content_id: '/local/sound/on.m4a',
-            media_content_type: 'music'
-          });
-        }
-        if (variables.state === 'on' && screensaver === 'off') {
-          hass.callService('media_player', 'play_media', {
-            entity_id: 'media_player.browser_9c06ce87_d1cf313c',
-            media_content_id: '/local/sound/off.m4a',
-            media_content_type: 'music'
-          });
-        }
-      ]]]
-    animation_card: |
-      [[[
-        let time = 900;
-        this.shadowRoot.getElementById('card').style.animation =
-          `card_bounce ${time}ms cubic-bezier(0.22, 1, 0.36, 1)`,
-          window.setTimeout(() => {
-            this.shadowRoot.getElementById('card').style.animation = 'none'
-          }, time);
-      ]]]
     action: toggle
     haptic: medium
   styles:
@@ -128,86 +97,6 @@ base:
     }
 
 #################################################
-#                    SIDEBAR                    #
-#################################################
-
-sidebar_template:
-  show_state: false
-  show_icon: false
-  tap_action:
-    action: none
-  name: |
-    [[[
-      if (entity) {
-        let attr = [];
-        for (let [k, value] of Object.entries(entity.attributes))
-          value != false && (attr += `<p>${value}</p>`);
-        return attr;
-      }
-    ]]]
-  extra_styles: |
-    #card {
-      padding: 0;
-    }
-    #container {
-      display: flex !important;
-    }
-    #name {
-      padding: 1.8vw 2.5vw 0 var(--custom-layout-card-padding);
-      white-space: normal;
-      text-align: left;
-    }
-    .time {
-      font-family: Comfortaa;
-      font-size: var(--sidebar-time-font-size);
-      font-weight: 200;
-      line-height: var(--sidebar-time-line-height);
-      letter-spacing: -0.05vw;
-      margin-left: -0.3vw;
-      color: rgba(255, 255, 255, 1);
-    }
-    .time-colon {
-      position: relative;
-      top: -.09em;
-    }
-    p {
-      font-family: Comfortaa;
-      font-size: var(--sidebar-font-size);
-      line-height: var(--sidebar-line-height);
-      font-weight: 300;
-      letter-spacing: 0.06vw;
-      color: #6a7377;
-    }
-    p > b {
-      color: rgba(255, 255, 255, 1);
-    }
-    /* portrait */
-    @media screen and (max-width: 1200px) {
-      .time {
-        font-size: calc(var(--sidebar-time-font-size) * 1.4 );
-        line-height: calc(var(--sidebar-time-line-height) * 1.4 );
-      }
-      p {
-        font-size: calc(var(--sidebar-font-size) * 1.4 );
-        line-height: calc(var(--sidebar-line-height) * 1.4 );
-      }
-    }
-    /* phone */
-    @media screen and (max-width: 800px) {
-      .time {
-        font-size: calc(var(--sidebar-time-font-size) * 2.6 );
-      }
-      p {
-        font-size: calc(var(--sidebar-font-size) * 2.6 );
-        line-height: calc(var(--sidebar-line-height) * 2.6 );
-        letter-spacing: 0.16vw;
-      }
-      #name {
-        padding: 0 0 0 1vw;
-      }
-    }
-
-#################################################
 #                    CIRCLE                     #
 #################################################
 
@@ -260,13 +149,13 @@ loader:
     loader: >
       [[[
         if (entity) {
-          let elt = this.shadowRoot,
-            loader = (id, style, timeout) => {
-              elt.getElementById(id) && (elt.getElementById(id).style.display = style,
-                window.setTimeout(() => {
-                  elt.getElementById(id).style.display = timeout
-                }, 20000))
-            };
+          let elt = this.shadowRoot;
+          const loader = (id, style, timeout) => {
+            if (elt.getElementById(id)) {
+              elt.getElementById(id).style.display = style;
+              window.setTimeout(() => elt.getElementById(id).style.display = timeout, 20000);
+            }
+          };
           loader('circle', 'none', 'initial'),
           loader('loader', 'initial', 'none');
         }
@@ -279,9 +168,6 @@ loader:
         - left: 60%
         - width: 37%
         - position: absolute
-        - opacity: 0.5
-        - filter: >
-            [[[ return variables.state === 'off' ? 'invert(1)' : 'none'; ]]]
 
 #################################################
 #                    CLIMATE                    #
@@ -314,64 +200,6 @@ climate:
         - opacity: 1
 
 #################################################
-#                    UPDATER                    #
-#################################################
-
-updater:
-  show_state: true
-  show_name: false
-  show_icon: false
-  styles:
-    state:
-      - text-align: left
-      - justify-self: left
-    card:
-      - cursor: default
-      - padding: 0
-  tap_action:
-    href:
-  extra_styles: |
-    #ripple {
-      display: none;
-    }
-    ha-icon {
-      width: 1.5em;
-      vertical-align: 18%;
-      opacity: 0.5;
-      padding-right: 2px;
-    }
-    .title {
-      font-family: Comfortaa;
-      font-size: 1.1em;
-      font-weight: 500;
-      letter-spacing: 0.5px;
-    }
-    .subtitle {
-      font-family: Comfortaa;
-      font-size: 1em;
-      line-height: 0.7em;
-      padding-left: 3px;
-      padding-bottom: 10px;
-      font-weight: 500;
-      letter-spacing: 0.5px;
-      color: #828383;
-    }
-    a {
-      color: var(--primary-color);
-    }
-    ul {
-      margin-top: -0.6em;
-      font-family: Comfortaa;
-      font-size: 0.95em;
-      letter-spacing: 0.5px;
-      padding: 0 0 0 2.5em;
-      line-height: 1.6em;
-    }
-    code {
-      background-color: var(--secondary-background-color);
-    }
-
-#################################################
 #                     LIGHT                     #
 #################################################
 
@@ -379,9 +207,21 @@ light:
   template:
     - base
     - circle
+    - loader
   variables:
     circle_input: >
       [[[ return entity === undefined || Math.round(entity.attributes.brightness / 2.54); ]]]
+  hold_action:
+    action: more-info
+
+#################################################
+#                     SWITCH                    #
+#################################################
+
+switch:
+  template:
+    - base
+    - loader
   hold_action:
     action: more-info
 

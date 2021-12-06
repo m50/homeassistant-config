@@ -4,10 +4,10 @@ path: hallway
 type: custom:grid-layout
 layout:
   grid-gap: 10px
-  grid-template-columns: 1fr 1fr
+  grid-template-columns: 1fr 1fr 1fr
   grid-template-areas: |
-    "header header"
-    ".      .     "
+    "header header header"
+    ".      .      .     "
 cards:
 - type: custom:stack-in-card
   view_layout:
@@ -42,5 +42,5 @@ cards:
   entity: switch.hallway_light
   name: Light
   template:
-  - base
+  - switch
   - icon_entity
