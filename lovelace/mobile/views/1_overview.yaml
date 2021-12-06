@@ -14,7 +14,8 @@ cards:
       background: var(--primary-color);
       color: var(--accent-color);
       padding-top: 1rem;
-      --primary-text-color: white;
+      --primary-text-color: var(--light-primary-color);
+      --secondary-text-color: var(--light-primary-color);
       --ha-card-box-shadow: none;
       --ha-card-background: none;
       --masonry-view-card-margin: 0rem calc(var(--horizontal-margin) * 2);
