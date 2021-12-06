@@ -33,7 +33,7 @@ base:
       - justify-self: start
       - line-height: 115%
     card:
-      - font-family: Comfortaa;
+      - font-family: Roboto;
       - border-radius: var(--ha-card-border-radius)
       - -webkit-tap-highlight-color: rgba(0,0,0,0)
       - transition: none
@@ -47,14 +47,14 @@ base:
       - color: >
           [[[
             return variables.consider_on ?
-              'rgba(0, 0, 0, 0.8)' :
-              'rgba(0, 0, 0, 0.6)';
+              'var(--text-primary-color)' :
+              'var(--primary-text-color)';
           ]]]
       - background-color: >
           [[[
             return variables.consider_on ?
-              'rgba(255, 255, 255, 1)' :
-              'rgba(255, 255, 255, 0.8)';
+              'var(--primary-color)' :
+              '#fff';
           ]]]
   extra_styles: |
     #container {

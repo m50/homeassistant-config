@@ -71,6 +71,10 @@ cards:
   entity: climate.thermostat
   layout:
     step: row
+  style: |
+    ha-card.no-header {
+      --heat-color: var(--tertiary-color)
+    }
   header: false
   control:
     - hvac

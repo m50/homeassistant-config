@@ -53,9 +53,10 @@ cards:
     step: row
   header: false
   style: |
-    ha-card {
+    ha-card.no-header {
       box-shadow: none;
       background: none;
+      --heat-color: var(--tertiary-color)
     }
   control:
     - hvac
