@@ -1,0 +1,61 @@
+type: vertical-stack
+view_layout:
+  grid-area: sidebar
+cards:
+- type: custom:search-card
+  style: |
+    ha-card {
+      box-shadow: none;
+      background: none;
+    }
+
+- type: weather-forecast
+  style: |
+    ha-card {
+      box-shadow: none;
+      background: none;
+    }
+  entity: weather.home
+
+- type: custom:mini-media-player
+  entity: media_player.study
+  toggle_power: true
+  volume_stateless: false
+  group: true
+  sound_mode: icon
+  source: icon
+  info: scroll
+  speaker_group:
+    platform: sonos
+    entities:
+      - entity_id: media_player.study
+        name: Study
+      - entity_id: media_player.kitchen
+        name: Kitchen
+      - entity_id: media_player.bedroom
+        name: Bedroom
+      - entity_id: media_player.bathroom
+        name: Bathroom
+  artwork: cover
+
+- type: sensor
+  graph: line
+  style: |
+    ha-card {
+      box-shadow: none;
+      background: none;
+    }
+  entity: sensor.average_temperature
+
+- type: custom:simple-thermostat
+  entity: climate.thermostat
+  layout:
+    step: row
+  header: false
+  style: |
+    ha-card {
+      box-shadow: none;
+      background: none;
+    }
+  control:
+    - hvac

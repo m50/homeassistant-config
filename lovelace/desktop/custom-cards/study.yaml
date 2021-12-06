@@ -1,0 +1,15 @@
+type: custom:stack-in-card
+view_layout:
+  grid-area: study
+title: Study
+cards:
+- type: sensor
+  graph: line
+  entity: sensor.study_temperature
+- type: entities
+  title: Lights
+  entities:
+    - entity: light.lamp
+      type: custom:slider-entity-row
+    - entity: light.desk_lamp
+      type: custom:slider-entity-row

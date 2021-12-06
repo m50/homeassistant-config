@@ -1,0 +1,18 @@
+type: custom:stack-in-card
+view_layout:
+  grid-area: kitchen
+title: Kitchen
+cards:
+- type: sensor
+  graph: line
+  entity: sensor.kitchen_temperature
+- type: entities
+  title: Lights
+  entities:
+    - entity: switch.kitchen_light
+    - entity: light.fan_light_1
+      type: custom:slider-entity-row
+    - entity: light.fan_light_2
+      type: custom:slider-entity-row
+    - entity: light.fan_light_3
+      type: custom:slider-entity-row

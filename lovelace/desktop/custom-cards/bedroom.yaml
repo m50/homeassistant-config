@@ -1,0 +1,71 @@
+type: custom:stack-in-card
+view_layout:
+  grid-area: bedroom
+title: Bedroom
+cards:
+- type: horizontal-stack
+  cards:
+    - type: button
+      tap_action:
+        action: call-service
+        service: scene.turn_on
+        service_data: {}
+        target:
+          entity_id: scene.bedroom_lights_off
+      entity: scene.bedroom_lights_off
+      show_name: true
+      name: 'Off'
+      card_mod:
+        style: |
+          ha-card {
+            box-shadow: none;
+          }
+    - type: button
+      tap_action:
+        action: call-service
+        service: scene.turn_on
+        service_data: {}
+        target:
+          entity_id: scene.bedroom_lights_low
+      entity: scene.bedroom_lights_low
+      name: Low
+      card_mod:
+        style: |
+          ha-card {
+            box-shadow: none;
+          }
+    - type: button
+      tap_action:
+        action: call-service
+        service: scene.turn_on
+        service_data: {}
+        target:
+          entity_id: scene.bedroom_lights_high
+      entity: scene.bedroom_lights_high
+      name: High
+      card_mod:
+        style: |
+          ha-card {
+            box-shadow: none;
+          }
+
+- type: sensor
+  graph: line
+  entity: sensor.bedroom_temperature
+- type: entities
+  title: Lights
+  entities:
+    - entity: light.laundry_light
+      type: custom:slider-entity-row
+    - entity: light.nightstand_lamp
+      type: custom:slider-entity-row
+    - entity: light.right_nightstand_lamp_level_light_color_on_off
+      type: custom:slider-entity-row
+    - entity: switch.fairy_lights
+    - entity: light.bed_underglow
+      type: custom:slider-entity-row
+- type: entities
+  title: Blinds
+  entities:
+    - entity: cover.bedroom_side_blinds
+      type: custom:slider-entity-row

@@ -1,0 +1,23 @@
+type: custom:stack-in-card
+view_layout:
+  grid-area: livingroom
+title: Living Room
+cards:
+- type: glance
+  entities:
+    - entity: sensor.living_room_temperature
+      name: TV Stand Temperature
+    - entity: sensor.living_room_2_temperature
+      name: Shelves Temperature
+- type: entities
+  title: Lights
+  entities:
+    - entity: light.couch_lamp
+      type: custom:slider-entity-row
+    - entity: light.rectangulamp
+      type: custom:slider-entity-row
+    - entity: switch.cube_light_on_off
+    - entity: switch.christmas_tree_on_off
+    - entity: light.shelves_backlight
+    - entity: light.tv_backlights
+

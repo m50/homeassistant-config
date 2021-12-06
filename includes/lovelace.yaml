@@ -8,7 +8,13 @@ dashboards:
     filename: lovelace/yaml-test/main.yaml
   lovelace-mobile-y:
     mode: yaml
-    title: Mobile 2
+    title: Mobile
     icon: mdi:cellphone
     show_in_sidebar: true
     filename: lovelace/mobile/main.yaml
+  lovelace-desktop:
+    mode: yaml
+    title: Desktop
+    icon: mdi:laptop
+    show_in_sidebar: true
+    filename: lovelace/desktop/main.yaml
