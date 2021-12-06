@@ -11,7 +11,7 @@ base:
     consider_on: >
       [[[ return ['on', 'home', 'cool', 'fan_only', 'playing'].indexOf(entity === undefined || entity.state) !== -1; ]]]
   aspect_ratio: 1/1
-  show_state: true
+  show_state: false
   show_icon: false
   tap_action:
     action: toggle
@@ -21,10 +21,10 @@ base:
       - grid-template-areas: |
           "icon  circle"
           "n     n"
-          "s     s"
+          "sw    sw"
       - grid-template-columns: repeat(2, 1fr)
       - grid-template-rows: auto repeat(2, min-content)
-      - gap: 2%
+      - gap: 1%
       - align-items: start
     name:
       - justify-self: start
@@ -159,36 +159,6 @@ loader:
             [[[ return variables.state === 'off' ? 'none' : 'invert(1)'; ]]]
 
 #################################################
-#                    CLIMATE                    #
-#################################################
-
-climate:
-  custom_fields:
-    circle: >
-      [[[
-        if (entity && entity.attributes.temperature && entity.attributes.current_temperature) {
-          let input = variables.circle_input == null ? ' ' : `${parseInt(variables.circle_input)}<tspan font-size="10">°C</tspan>`,
-            stroke_color = variables.state === 'cool' || variables.state === 'fan_only' ? '#b2b2b2' : 'none',
-            fill_color = variables.state === 'off' ? 'rgba(255,255,255,0.04)' : 'none';
-          return `
-            <svg viewBox="0 0 50 50">
-              <circle cx="25" cy="25" r="20.5" stroke="${stroke_color}" stroke-width="1.5" fill="${fill_color}" />
-              <text x="50%" y="54%" fill="#8d8e90" font-size="14" text-anchor="middle" alignment-baseline="middle" dominant-baseline="middle">${input}</text>
-            </svg>
-          `;
-        }
-      ]]]
-  styles:
-    custom_fields:
-      circle:
-        - display: initial
-        - width: 90%
-        - letter-spacing: 0.03vw
-        - margin: -6% -6% 0 0
-        - justify-self: end
-        - opacity: 1
-
-#################################################
 #                     LIGHT                     #
 #################################################
 
@@ -197,6 +167,8 @@ light:
     - base
     - circle
     - loader
+    - icon_entity
+    - toggle_icon
   variables:
     circle_input: >
       [[[ return entity === undefined || Math.round(entity.attributes.brightness / 2.54); ]]]
@@ -211,334 +183,87 @@ switch:
   template:
     - base
     - loader
+    - icon_entity
+    - toggle_icon
   hold_action:
     action: more-info
-
-#################################################
-#                    PERSON                     #
-#################################################
-
-person:
-  template:
-    - base
-    - circle
-  state_display: >
-    [[[
-      if (variables.state === 'home') {
-        return 'Ja';
-      }
-      if (variables.state === 'not_home') {
-        return 'Nej';
-      }
-      return variables.state;
-    ]]]
-  triggers_update: sensor.time
-  styles:
-    custom_fields:
-      icon:
-        - clip-path: circle()
-        - width: 79%
-        - pointer-events: none
-        - display: grid
-  custom_fields:
-    icon: >
-      [[[ return entity === undefined ? null : `<img src="${states[entity.entity_id].attributes.entity_picture}" width="100%">`; ]]]
-    circle: >
-      [[[
-        if (entity) {
-          let time = c => {
-            let s = (c/1e3), m = (c/6e4), h = (c/36e5), d = (c/864e5);
-            return s < 60 ? parseInt(s) + 's' : m < 60 ? parseInt(m) + 'm' : h < 24 ? parseInt(h) + 'h' : parseInt(d) + 'd';
-          };
-          let last_changed = states[variables.retain] == null || states[variables.retain].state == 'unavailable'
-              ? time(Date.now() - Date.parse(states[entity.entity_id].last_changed))
-              : time(Date.now() - Date.parse(states[variables.retain].state)),
-            stroke = variables.state === 'home' ? '#b2b2b2' : 'none',
-            fill = variables.state !== 'home' ? 'rgba(255,255,255,0.04)' : 'none';
-          return `
-            <svg viewBox="0 0 50 50">
-              <circle cx="25" cy="25" r="20.5" stroke="${stroke}" stroke-width="1.5" fill="${fill}" />
-              <text x="50%" y="54%" fill="#8d8e90" font-size="14" text-anchor="middle" alignment-baseline="middle" dominant-baseline="middle">${last_changed}</text>
-            </svg>
-          `;
-        }
-      ]]]
-
-#################################################
-#                  BASE MEDIA                   #
-#################################################
-
-base_media:
-  tap_action:
-    action: >
-      [[[
-        return !(variables.state === 'off' || variables.state === 'idle' || variables.state === 'standby') ? 'call-service' : 'none';
-      ]]]
-    service: media_player.media_play_pause
-    service_data:
-      entity_id: >
-        [[[ return entity === undefined || entity.entity_id; ]]]
-  double_tap_action:
-    action: call-service
-    service: >
-      [[[ return variables.state === 'off' || variables.state === 'idle' || variables.state === 'standby' ? 'media_player.turn_on' : 'media_player.turn_off'; ]]]
-    service_data:
-      entity_id: >
-        [[[ return entity === undefined || entity.entity_id; ]]]
-  styles:
-    card:
-      - color: >
-          [[[
-            let entity_picture = entity === undefined || entity.attributes.entity_picture;
-            if (variables.state === 'off' || variables.state === 'idle' || variables.state === 'standby' ||
-              variables.state === 'unknown' || variables.state === 'unavailable' || entity === undefined) {
-              return 'rgba(255, 255, 255, 0.3)';
-            }
-            return (variables.state != 'off' && variables.state != 'idle' && variables.state != 'standby') && (entity_picture == null) ? 'rgba(0, 0, 0, 0.6)' : '#efefef';
-          ]]]
-      - text-shadow: >
-          [[[
-            let entity_picture = entity === undefined ? null : entity.attributes.entity_picture;
-            return entity_picture == null ? 'none' : '1px 1px 5px rgba(18, 22, 23, 0.9)';
-          ]]]
-
-#################################################
-#                     MEDIA                     #
-#################################################
-
-media:
-  template:
-    - base
-    - base_media
-  styles:
-    custom_fields:
-      icon:
-        - width: 70%
-        - fill: '#9da0a2'
-        - opacity: >
-            [[[
-              let entity_picture = entity === undefined ? null : entity.attributes.entity_picture;
-              return entity_picture == null ? 1 : 0;
-            ]]]
-    card:
-      - background-color: none
-      - background-size: cover
-      - background-image: >
-          [[[
-            let entity_picture = entity === undefined || entity.attributes.entity_picture;
-            if (variables.state === 'off' || variables.state === 'idle' || variables.state === 'standby' ||
-              variables.state === 'unknown' || variables.state === 'unavailable' || entity === undefined) {
-              return 'linear-gradient(0deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.8) 100%)';
-            }
-            return (variables.state != 'off' && variables.state != 'idle' && variables.state != 'standby') && (entity_picture == null) ?
-              'linear-gradient(0deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 100%)' :
-              'linear-gradient(0deg, rgba(0,0,0,.8) 0%, rgba(0,0,0,0) 100%), url(' + entity_picture + ')';
-          ]]]
-
-#################################################
-#               CONDITIONAL MEDIA               #
-#################################################
-
-conditional_media:
-  template:
-    - base
-    - base_media
-  state_display: >
-    [[[
-      if (entity.attributes.media_title === 'Nothing playing' || entity.attributes.media_title === 'No title' && variables.state === 'paused') {
-        return 'Inget spelas';
-      }
-      return entity.attributes.media_title === 'No title' && variables.state === 'playing' ? 'Ingen titel' : entity.attributes.media_title;
-    ]]]
-  custom_fields:
-    blur: >
-      [[[
-        if (entity.attributes.entity_picture !== undefined) return '<div></div>';
-      ]]]
-    overlay: >
-      [[[
-        if (entity && entity.attributes.entity_picture === undefined && entity.state !== 'idle' && entity.state !== 'unavailable') return '<div></div>';
-      ]]]
-    media_image: >
-      <div></div>
-    play_pause: >
-      [[[
-        let style = `
-          <style>
-            .scale-up {
-              animation: scale-up 1s forwards;
-              cubic-bezier(.05, .5, .3, 1);
-              transform-origin: center center;
-            }
-
-            @keyframes scale-up {
-              0% {
-                opacity: 0;
-                transform: scale(0);
-              }
-              20% {
-                transform: scale(1);
-              }
-              30% {
-                opacity: 1;
-              }
-              80% {
-                opacity: 1;
-              }
-              100% {
-                opacity: 0;
-              }
-            }
-          </style>
-        `;
-        if (variables.state === 'paused' && variables.timeout < 2000) {
-          return `
-            <svg viewBox="0 0 166 166">${style}
-              <path class="scale-up" d="M0 0h59.9v166H0zm106.1 0H166v166h-59.9z"/>
-            </svg>
-          `;
-        }
-        if (variables.state === 'playing' && variables.timeout < 2000) {
-          return `
-            <svg viewBox="0 0 166 166">${style}
-              <path class="scale-up" d="M0 0l166 83L0 166z"/>
-            </svg>
-          `;
-        }
-      ]]]
-  styles:
-    name:
-      - z-index: 3
-      - margin-bottom: -1%
-    state:
-      - z-index: 3
-    card:
-      - background-color: rgba(255, 255, 255, 0.8)
-      - padding: 5%
-      - border-radius: calc(var(--custom-button-card-border-radius) / 2)
-      - backdrop-filter: blur(0) #fix chrome bug
-      - -webkit-clip-path: inset(0) #fix safari bug
-    custom_fields:
-      blur:
-        - z-index: 2
-        - top: 75%
-        - left: 0%
-        - width: 100%
-        - height: 25.5%
-        - position: absolute
-        - background-color: rgba(0, 0, 0, 0.2)
-        - backdrop-filter: blur(0.4em)
-        - -webkit-backdrop-filter: blur(0.4em)
-      overlay:
-        - z-index: 2
-        - opacity: 1
-        - top: 75.5%
-        - left: 0%
-        - width: 100%
-        - height: 26%
-        - position: absolute
-        - background-color: rgba(255, 255, 255, 1)
-      media_image:
-        - z-index: 1
-        - top: 0
-        - left: 0
-        - width: 100%
-        - height: 100%
-        - position: absolute
-        - background-size: cover
-        - background-image: >
-            [[[
-              return entity.attributes.entity_picture === undefined ? 'none' : `url(${entity.attributes.entity_picture})`;
-            ]]]
-      play_pause:
-        - z-index: 3
-        - top: 0
-        - right: 0
-        - bottom: 0
-        - left: 0
-        - margin: auto
-        - width: 21%
-        - height: 21%
-        - position: absolute
-        - fill: '#dedede'
-        - overflow: visible
-        - filter: >
-            [[[
-              let entity_picture = entity === undefined || entity.attributes.entity_picture;
-              return entity_picture == null ? 'none' : 'drop-shadow(0 0 1.3vw rgba(0,0,0,0.7))';
-            ]]]
-      icon:
-        - z-index: 3
-        - width: 29%
-        - fill: >
-            [[[
-              return variables.state === 'off' || variables.state === 'idle' || variables.state === 'standby' ||
-              variables.state === 'unknown' || variables.state === 'unavailable' || entity === undefined ?
-                '#9da0a2' :
-                'rgba(255, 255, 255, 1)';
-            ]]]
-
-#################################################
-#                 POPUP BUTTONS                 #
-#################################################
-
-icon_name:
-  size: 1.4em
-  color: '#9da0a2'
-  styles:
-    grid:
-      - grid-template-areas: '"i n"'
-      - grid-column-gap: 0.3em
-    name:
-      - font-size: 1.06em
-      - letter-spacing: 0.015em
-    card:
-      - color: '#9da0a2'
-      - border-radius: 0.6em
-      - padding: 1em 1.4em 1em 1.2em
-      - width: max-content
-      - font-size: 1.06em
-      - font-weight: 500
-      - letter-spacing: 0.015em
-      - background: '#FFFFFF10'
-
-icon_only:
-  show_name: false
-  color: '#9da0a2'
-  styles:
-    card:
-      - color: '#9da0a2'
-      - border-radius: 0.6em
-      - width: 4em
-      - height: 3.7em
-      - background: '#FFFFFF10'
 
 #################################################
 #                     ICONS                     #
 #################################################
 
+toggle_icon:
+  custom_fields:
+    sw: >
+      [[[
+        const icon = variables.consider_on ? 'mdi:toggle-switch' : 'mdi:toggle-switch-off-outline';
+        const color = variables.consider_on ? 'var(--accent-color)' : 'var(--primary-text-color)';
+        const dir = variables.consider_on ? 'row-reverse' : 'row';
+        const styles = `
+          --switch-size: 1em;
+          color: ${color};
+          height: var(--switch-size);
+          width: 50%;
+          border-radius: var(--switch-size);
+          border: 2px solid ${color};
+          display: flex;
+          flex-direction: ${dir};
+          align-content: center;
+          align-items: center;
+          justify-content: space-between;
+          padding: 2px;
+        `.replace(/\n/g, ' ');
+
+        const ballStyles = `
+          border-radius: var(--switch-size);
+          width: 50%;
+          height: var(--switch-size);
+          background: ${color}
+        `.replace(/\n/g, ' ');
+
+        const textStyles = `
+          padding: 0 4px;
+          color: ${variables.consider_on ? 'var(--accent-color)' : 'var(--secondary-text-color)'};
+        `.replace(/\n/g, ' ');
+
+        //return `<ha-icon icon="${icon}" style="${styles}"></ha-icon>`;
+        return `
+          <div style="${styles}">
+            <div style="${ballStyles}">&nbsp;</div>
+            <div style="${textStyles}">${variables.consider_on ? 'On' : 'Off'}</div>
+          </div>
+        `;
+      ]]]
+
 icon_entity:
   custom_fields:
     icon: >
       [[[
-        if (entity) {
-          const hs = entity.attributes.hs_color == undefined;
-          const h = hs || entity.attributes.hs_color[0];
-          const s = hs || entity.attributes.hs_color[1];
-          const l_min = 28;
-          const l_max = 48;
-          const l_calc = entity.attributes.brightness / 2.54 * (l_max - l_min) / 100 + l_min;
-
-          var light_color = `hsl(${h}, ${s}%, ${l_calc}%);`;
+        let lightColor = 'var(--light-primary-color);'
+        let brightness = 100;
+        if (entity?.attributes?.rgb_color) {
+          const [r, g, b] = entity.attributes.rgb_color;
+          lightColor = `rgb(${r}, ${g}, ${b})`;
         }
-        let lightColor = 'var(--state-icon-color);';
+        if (entity?.attributes?.brightness) {
+          const b_max = 99;
+          const b_min = 40;
+          brightness = entity.attributes.brightness / 2.54 * (b_max - b_min)  / 100 + b_min;
+        }
+
+        let color = 'var(--state-icon-color)';
         if (variables.state === 'on') {
           if (entity.attributes.brightness != undefined) {
-            lightColor = light_color;
+            color = lightColor;
           } else if (entity.attributes.brightness == undefined) {
-            lightColor = 'var(--state-icon-active-color);';
+            color = 'var(--state-icon-active-color)';
           }
         }
 
-        return `<ha-icon icon="${entity.attributes.icon}" style="color: ${lightColor};"></ha-icon>`;
+        const style = `
+          color: ${color};
+          filter: brightness(${brightness}%);
+        `;
+
+        return `<ha-icon icon="${entity.attributes.icon}" style="${style.replace(/\n/g, ' ')}"></ha-icon>`;
       ]]]
