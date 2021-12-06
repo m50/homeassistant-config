@@ -33,11 +33,16 @@ base:
       - justify-self: start
       - line-height: 115%
     card:
-      - font-family: Roboto;
       - border-radius: var(--ha-card-border-radius)
       - -webkit-tap-highlight-color: rgba(0,0,0,0)
       - transition: none
       - padding: 10%
+      - box-shadow: >
+          [[[
+            return variables.consider_on ?
+              'var(--ha-card-box-shadow-active)' :
+              'var(--ha-card-box-shadow)';
+          ]]]
       - --mdc-ripple-color: >
           [[[
             return variables.consider_on ?
@@ -78,23 +83,6 @@ base:
         letter-spacing: 0.12vw;
       }
     }
-    @keyframes card_bounce {
-      0% {
-        transform: scale(1);
-      }
-      15% {
-        transform: scale(0.9);
-      }
-      25% {
-        transform: scale(1);
-      }
-      30% {
-        transform: scale(0.98);
-      }
-      100% {
-        transform: scale(1);
-      }
-    }
 
 #################################################
 #                    CIRCLE                     #
@@ -105,9 +93,9 @@ circle:
     circle: >
       [[[
         if (variables.state === 'on') {
-          let input = variables.circle_input,
-            radius = 20.5,
-            circumference = radius * 2 * Math.PI;
+          const input = variables.circle_input;
+          const radius = 20.5;
+          const circumference = radius * 2 * Math.PI;
           return `
             <svg viewBox="0 0 50 50">
               <style>
@@ -135,7 +123,6 @@ circle:
         - letter-spacing: 0.03vw
         - margin: -6% -6% 0 0
         - justify-self: end
-        - opacity: 1
 
 #################################################
 #                    LOADER                     #
@@ -168,6 +155,8 @@ loader:
         - left: 60%
         - width: 37%
         - position: absolute
+        - filter: >
+            [[[ return variables.state === 'off' ? 'none' : 'invert(1)'; ]]]
 
 #################################################
 #                    CLIMATE                    #
