@@ -1,23 +1,57 @@
-type: custom:stack-in-card
+type: vertical-stack
 view_layout:
   grid-area: livingroom
-title: Living Room
 cards:
-- type: glance
-  entities:
-    - entity: sensor.living_room_temperature
-      name: TV Stand Temperature
-    - entity: sensor.living_room_2_temperature
-      name: Shelves Temperature
-- type: entities
-  title: Lights
-  entities:
-    - entity: light.couch_lamp
-      type: custom:slider-entity-row
-    - entity: light.rectangulamp
-      type: custom:slider-entity-row
-    - entity: switch.cube_light_on_off
-    - entity: switch.christmas_tree_on_off
-    - entity: light.shelves_backlight
-    - entity: light.tv_backlights
 
+# Header
+- type: custom:layout-card
+  layout_type: custom:grid-layout
+  layout:
+    grid-gap: 10px
+    grid-template-columns: repeat(2, 1fr)
+  cards:
+  - type: markdown
+    content: |
+      # Living Room
+    style: |
+      ha-card {
+        box-shadow: none;
+        background: none;
+      }
+  - type: markdown
+    content: |
+      ## {{ states('sensor.avg_living_room_temperature') }}°
+    style: |
+      ha-card {
+        float: right;
+        box-shadow: none;
+        background: none;
+      }
+
+# Buttons
+- type: custom:auto-entities
+  show_empty: false
+  card:
+    type: custom:layout-card
+    layout_type: custom:grid-layout
+    layout:
+      grid-gap: 10px
+      grid-template-columns: repeat(3, 1fr)
+  card_param: cards
+  filter:
+    include:
+    - domain: light
+      area: Living Room
+      options:
+        type: custom:button-card
+        template:
+          - light
+          - toggle_icon
+    - domain: switch
+      area: Living Room
+      name: '/^(.*[lL]ight.*|.*[Cc]hristmas.*)$/'
+      options:
+        type: custom:button-card
+        template:
+          - switch
+          - toggle_icon

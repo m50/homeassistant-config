@@ -1,8 +1,5 @@
 type: custom:stack-in-card
 style: |
-  hui-vertical-stack-card > #root {
-    justify-content: space-between;
-  }
   ha-card {
     position: absolute;
     left: 0;
@@ -18,9 +15,29 @@ style: |
     padding: var(--vertical-margin);
   }
 cards:
-- type: markdown
-  content: |
-    # {{ as_timestamp(now()) | timestamp_custom("%I:%M %p") }}
+- type: custom:layout-card
+  layout_type: custom:grid-layout
+  layout:
+    grid-gap: 10px
+    grid-template-columns: repeat(2, 1fr)
+  cards:
+  - type: markdown
+    content: |
+      # {{ as_timestamp(now()) | timestamp_custom("%I:%M %p") }}
+    style: |
+      ha-card {
+        box-shadow: none;
+        background: none;
+      }
+  - type: markdown
+    content: |
+      # {{ states('sensor.average_temperature') }}°
+    style: |
+      ha-card {
+        float: right;
+        box-shadow: none;
+        background: none;
+      }
 - type: custom:search-card
   style: |
     ha-card {
@@ -57,19 +74,11 @@ cards:
         name: Bathroom
   artwork: cover
 
-- type: sensor
-  graph: line
-  style: |
-    ha-card {
-      box-shadow: none;
-      background: none;
-    }
-  entity: sensor.average_temperature
-
 - type: custom:simple-thermostat
   entity: climate.thermostat
   layout:
     step: row
+  step_size: 1
   header: false
   style: |
     ha-card.no-header {

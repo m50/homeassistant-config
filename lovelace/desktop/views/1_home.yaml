@@ -9,7 +9,7 @@ badges: []
 cards:
 - !include ../custom-cards/sidebar.yaml
 - type: custom:layout-card
-  layout_type: custom:masonry-layout
+  layout_type: custom:grid-layout
   style: |
     ha-card {
       position: absolute;
@@ -20,11 +20,16 @@ cards:
       padding: 10px;
     }
   layout:
-    max_cols: 3
+    grid-gap: 10px
+    grid-template-columns: 1fr 1fr 1fr
+    grid-template-areas: |
+      "bedroom livingroom kitchen"
+      "bedroom livingroom study  "
+      "bedroom livingroom hallway"
   cards:
-    - !include ../custom-cards/bedroom.yaml
-    - !include ../custom-cards/living-room.yaml
     - !include ../custom-cards/kitchen.yaml
     - !include ../custom-cards/study.yaml
     - !include ../custom-cards/hallway.yaml
+    - !include ../custom-cards/bedroom.yaml
+    - !include ../custom-cards/living-room.yaml
 

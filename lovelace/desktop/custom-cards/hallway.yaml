@@ -1,12 +1,57 @@
-type: custom:stack-in-card
+type: vertical-stack
 view_layout:
   grid-area: hallway
-title: Hallway
 cards:
-- type: sensor
-  graph: line
-  entity: sensor.hallway_temperature
-- type: entities
-  title: Lights
-  entities:
-    - entity: switch.hallway_light
+
+# Header
+- type: custom:layout-card
+  layout_type: custom:grid-layout
+  layout:
+    grid-gap: 10px
+    grid-template-columns: repeat(2, 1fr)
+  cards:
+  - type: markdown
+    content: |
+      # Hallway
+    style: |
+      ha-card {
+        box-shadow: none;
+        background: none;
+      }
+  - type: markdown
+    content: |
+      ## {{ states('sensor.hallway_temperature') }}°
+    style: |
+      ha-card {
+        float: right;
+        box-shadow: none;
+        background: none;
+      }
+
+# Buttons
+- type: custom:auto-entities
+  show_empty: false
+  card:
+    type: custom:layout-card
+    layout_type: custom:grid-layout
+    layout:
+      grid-gap: 10px
+      grid-template-columns: repeat(3, 1fr)
+  card_param: cards
+  filter:
+    include:
+    - domain: light
+      area: Hallway
+      options:
+        type: custom:button-card
+        template:
+          - light
+          - toggle_icon
+    - domain: switch
+      area: Hallway
+      name: '/^(.*[lL]ight.*|.*[Cc]hristmas.*)$/'
+      options:
+        type: custom:button-card
+        template:
+          - switch
+          - toggle_icon

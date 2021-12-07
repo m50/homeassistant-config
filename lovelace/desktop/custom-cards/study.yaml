@@ -1,15 +1,57 @@
-type: custom:stack-in-card
+type: vertical-stack
 view_layout:
   grid-area: study
-title: Study
 cards:
-- type: sensor
-  graph: line
-  entity: sensor.study_temperature
-- type: entities
-  title: Lights
-  entities:
-    - entity: light.lamp
-      type: custom:slider-entity-row
-    - entity: light.desk_lamp
-      type: custom:slider-entity-row
+
+# Header
+- type: custom:layout-card
+  layout_type: custom:grid-layout
+  layout:
+    grid-gap: 10px
+    grid-template-columns: repeat(2, 1fr)
+  cards:
+  - type: markdown
+    content: |
+      # Study
+    style: |
+      ha-card {
+        box-shadow: none;
+        background: none;
+      }
+  - type: markdown
+    content: |
+      ## {{ states('sensor.study_temperature') }}°
+    style: |
+      ha-card {
+        float: right;
+        box-shadow: none;
+        background: none;
+      }
+
+# Buttons
+- type: custom:auto-entities
+  show_empty: false
+  card:
+    type: custom:layout-card
+    layout_type: custom:grid-layout
+    layout:
+      grid-gap: 10px
+      grid-template-columns: repeat(3, 1fr)
+  card_param: cards
+  filter:
+    include:
+    - domain: light
+      area: Study
+      options:
+        type: custom:button-card
+        template:
+          - light
+          - toggle_icon
+    - domain: switch
+      area: Study
+      name: '/^(.*[lL]ight.*|.*[Cc]hristmas.*)$/'
+      options:
+        type: custom:button-card
+        template:
+          - switch
+          - toggle_icon
