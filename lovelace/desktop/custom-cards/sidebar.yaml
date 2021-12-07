@@ -19,7 +19,6 @@ style: |
   }
 cards:
 - type: markdown
-  title: Welcome home, Marisa
   content: |
     # {{ as_timestamp(now()) | timestamp_custom("%I:%M %p") }}
 - type: custom:search-card
