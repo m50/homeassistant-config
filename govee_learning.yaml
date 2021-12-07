@@ -4,7 +4,7 @@
   before_set_brightness_turn_on: false
   config_offline_is_off: false
 42:CA:D2:31:30:30:3B:6C:
-  set_brightness_max:
+  set_brightness_max: 100
   get_brightness_max: 100
   before_set_brightness_turn_on: false
   config_offline_is_off: false
