@@ -3,7 +3,7 @@ icon: mdi:home
 type: custom:grid-layout
 layout:
   grid-gap: 10px
-  grid-template-columns: 20% 1fr
+  grid-template-columns: 25% 1fr
 path: home
 badges: []
 cards:
@@ -13,7 +13,7 @@ cards:
   style: |
     ha-card {
       position: absolute;
-      left: 20%;
+      left: 25%;
       top: 0;
       bottom: 0;
       right: 0;
