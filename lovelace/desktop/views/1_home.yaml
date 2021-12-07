@@ -4,7 +4,7 @@ type: custom:grid-layout
 layout:
   grid-gap: 10px
   grid-template-columns: 25% 1fr
-path: home
+path: home_kiosk
 badges: []
 cards:
 - !include ../custom-cards/sidebar.yaml
