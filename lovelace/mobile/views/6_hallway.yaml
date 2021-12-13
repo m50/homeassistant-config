@@ -4,10 +4,10 @@ path: hallway
 type: custom:grid-layout
 layout:
   grid-gap: 10px
-  grid-template-columns: 1fr 1fr 1fr
+  grid-template-columns: 1fr
   grid-template-areas: |
-    "header header header"
-    ".      .      .     "
+    "header"
+    ".     "
 cards:
 - type: custom:stack-in-card
   view_layout:
@@ -51,8 +51,30 @@ cards:
           float: right;
         }
 
-- type: custom:button-card
-  entity: switch.hallway_light
-  name: Light
-  template:
-  - switch
+# Buttons
+- type: custom:auto-entities
+  show_empty: false
+  card:
+    type: custom:layout-card
+    layout_type: custom:grid-layout
+    layout:
+      grid-gap: 10px
+      grid-template-columns: repeat(3, 1fr)
+  card_param: cards
+  filter:
+    include:
+    - domain: light
+      area: Hallway
+      options:
+        type: custom:button-card
+        template:
+          - light
+          - toggle_icon
+    - domain: switch
+      area: Hallway
+      name: '/^(.*[lL]ight.*|.*[Cc]hristmas.*)$/'
+      options:
+        type: custom:button-card
+        template:
+          - switch
+          - toggle_icon

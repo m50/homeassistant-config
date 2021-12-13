@@ -9,13 +9,15 @@ base:
     timeout: >
       [[[ return entity === undefined || Date.now() - Date.parse(entity.last_changed); ]]]
     consider_on: >
-      [[[ return ['on', 'home', 'cool', 'fan_only', 'playing'].indexOf(entity === undefined || entity.state) !== -1; ]]]
+      [[[ return ['on', 'home', 'cool', 'fan_only', 'playing', 'open'].indexOf(entity === undefined || entity.state) !== -1; ]]]
   aspect_ratio: 1/1
   show_state: false
   show_icon: false
   tap_action:
     action: toggle
     haptic: medium
+  hold_action:
+    action: more-info
   styles:
     grid:
       - grid-template-areas: |
@@ -24,7 +26,7 @@ base:
           "sw    sw"
       - grid-template-columns: repeat(2, 1fr)
       - grid-template-rows: auto repeat(2, min-content)
-      - gap: 1%
+      - gap: 0.5rem
       - align-items: start
     name:
       - justify-self: start
@@ -117,7 +119,7 @@ circle:
       ]]]
   styles:
     custom_fields:
-      circle: &person
+      circle:
         - display: initial
         - width: 90%
         - letter-spacing: 0.03vw
@@ -156,13 +158,16 @@ loader:
         - width: 37%
         - position: absolute
         - filter: >
-            [[[ return variables.state === 'off' ? 'none' : 'invert(1)'; ]]]
+            [[[ return !variables.consider_on ? 'none' : 'invert(1)'; ]]]
 
 #################################################
 #                     LIGHT                     #
 #################################################
 
 light:
+  tap_action:
+    action: toggle
+    haptic: medium
   template:
     - base
     - circle
@@ -172,21 +177,65 @@ light:
   variables:
     circle_input: >
       [[[ return entity === undefined || Math.round(entity.attributes.brightness / 2.54); ]]]
-  hold_action:
-    action: more-info
 
 #################################################
 #                     SWITCH                    #
 #################################################
 
 switch:
+  tap_action:
+    action: toggle
+    haptic: medium
   template:
     - base
     - loader
     - icon_entity
     - toggle_icon
-  hold_action:
-    action: more-info
+
+#################################################
+#                     BLIND                     #
+#################################################
+
+blind:
+  tap_action:
+    action: toggle
+    haptic: medium
+  template:
+    - base
+    - circle
+    - loader
+    - icon_entity
+    - toggle_icon
+  variables:
+    circle_input: >
+      [[[ return entity === undefined || Math.round(entity.attributes.current_position); ]]]
+
+#################################################
+#                     Scene                     #
+#################################################
+
+scene:
+  template:
+    - base
+    - icon_entity
+  custom_fields:
+    circle: >
+      <ha-icon icon="mdi:presentation"></ha-icon>
+  styles:
+    custom_fields:
+      circle:
+        - display: initial
+        - width: 40%
+        - letter-spacing: 0.03vw
+        - margin: -6% -6% 0 0
+        - justify-self: end
+  haptic: medium
+  tap_action:
+    action: call-service
+    service: scene.turn_on
+    service_data:
+      entity_id: >
+        [[[ return entity.entity_id; ]]]
 
 #################################################
 #                     ICONS                     #
@@ -226,7 +275,6 @@ toggle_icon:
           color: ${variables.consider_on ? 'var(--accent-color)' : 'var(--secondary-text-color)'};
         `.replace(/\n/g, ' ');
 
-        //return `<ha-icon icon="${icon}" style="${styles}"></ha-icon>`;
         return `
           <div style="${styles}">
             <div style="${ballStyles}">&nbsp;</div>
@@ -252,7 +300,7 @@ icon_entity:
         }
 
         let color = 'var(--state-icon-color)';
-        if (variables.state === 'on') {
+        if (variables.consider_on) {
           if (entity.attributes.brightness != undefined) {
             color = lightColor;
           } else if (entity.attributes.brightness == undefined) {

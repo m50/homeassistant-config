@@ -1,6 +1,13 @@
 title: ''
 icon: mdi:home
 path: overview
+type: custom:grid-layout
+layout:
+  grid-gap: 8px
+  grid-template-columns: 1fr
+  grid-template-areas: |
+    "header"
+    ".     "
 cards:
 - type: custom:stack-in-card
   view_layout:
@@ -62,7 +69,19 @@ cards:
         }
       view_layout:
         grid-column: 1 / -1
-- type: custom:search-card
+
+- type: custom:simple-thermostat
+  entity: climate.thermostat
+  layout:
+    step: row
+  style: |
+    ha-card.no-header {
+      --heat-color: var(--tertiary-color)
+    }
+  header: false
+  step_size: 1
+  control:
+    - hvac
 
 - type: custom:mini-media-player
   entity: media_player.study
@@ -84,15 +103,3 @@ cards:
       - entity_id: media_player.bathroom
         name: Bathroom
   artwork: cover
-
-- type: custom:simple-thermostat
-  entity: climate.thermostat
-  layout:
-    step: row
-  style: |
-    ha-card.no-header {
-      --heat-color: var(--tertiary-color)
-    }
-  header: false
-  control:
-    - hvac

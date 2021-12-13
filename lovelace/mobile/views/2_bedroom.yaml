@@ -4,10 +4,10 @@ path: bedroom
 type: custom:grid-layout
 layout:
   grid-gap: 8px
-  grid-template-columns: 1fr 1fr 1fr
+  grid-template-columns: 1fr
   grid-template-areas: |
-    "header header header"
-    ".      .      .     "
+    "header"
+    ".     "
 cards:
 - type: custom:stack-in-card
   view_layout:
@@ -49,91 +49,58 @@ cards:
           background: none;
           float: right;
         }
-    - type: horizontal-stack
-      view_layout:
-        grid-column: 1 / -1
-      cards:
-        - type: button
-          style: |
-            ha-card {
-              --primary-text-color: var(--light-primary-color);
-              --secondary-text-color: var(--light-primary-color);
-              box-shadow: none;
-              background: none;
-            }
-          tap_action:
-            action: call-service
-            service: scene.turn_on
-            service_data: {}
-            target:
-              entity_id: scene.bedroom_lights_off
-          entity: scene.bedroom_lights_off
-          show_name: true
-          name: 'Off'
-        - type: button
-          style: |
-            ha-card {
-              --primary-text-color: var(--light-primary-color);
-              --secondary-text-color: var(--light-primary-color);
-              box-shadow: none;
-              background: none;
-            }
-          tap_action:
-            action: call-service
-            service: scene.turn_on
-            service_data: {}
-            target:
-              entity_id: scene.bedroom_lights_low
-          entity: scene.bedroom_lights_low
-          name: Low
-        - type: button
-          style: |
-            ha-card {
-              --primary-text-color: var(--light-primary-color);
-              --secondary-text-color: var(--light-primary-color);
-              box-shadow: none;
-              background: none;
-            }
-          tap_action:
-            action: call-service
-            service: scene.turn_on
-            service_data: {}
-            target:
-              entity_id: scene.bedroom_lights_high
-          entity: scene.bedroom_lights_high
-          name: High
 
-- type: custom:button-card
-  entity: light.nightstand_lamp
-  template:
-  - light
+- type: custom:layout-card
+  layout_type: custom:grid-layout
+  layout:
+    grid-gap: 10px
+    grid-template-columns: repeat(3, 1fr)
+  cards:
+  - type: custom:button-card
+    entity: scene.bedroom_lights_off
+    name: 'Lights Off'
+    template:
+      - scene
+  - type: custom:button-card
+    entity: scene.bedroom_lights_low
+    name: 'Lights Low'
+    template:
+      - scene
+  - type: custom:button-card
+    entity: scene.bedroom_lights_high
+    name: 'Lights High'
+    template:
+      - scene
 
-- type: custom:button-card
-  entity: switch.fairy_lights
-  template:
-  - switch
-
-- type: custom:button-card
-  entity: light.right_nightstand_lamp_level_light_color_on_off
-  template:
-  - light
-
-- type: custom:button-card
-  entity: light.bed_underglow
-  name: Bed Underglow
-  template:
-  - light
-
-- type: custom:button-card
-  entity: light.laundry_light
-  name: Lamp
-  template:
-  - light
-
-- type: entities
-  title: Blinds
-  view_layout:
-    grid-column: 1 / -1
-  entities:
-    - entity: cover.bedroom_side_blinds
-      type: custom:slider-entity-row
+# Buttons
+- type: custom:auto-entities
+  show_empty: false
+  card:
+    type: custom:layout-card
+    layout_type: custom:grid-layout
+    layout:
+      grid-gap: 10px
+      grid-template-columns: repeat(3, 1fr)
+  card_param: cards
+  filter:
+    include:
+    - domain: light
+      area: Bedroom
+      options:
+        type: custom:button-card
+        template:
+          - light
+    - domain: switch
+      area: Bedroom
+      name: '/^(.*[lL]ight.*|.*[Cc]hristmas.*)$/'
+      options:
+        type: custom:button-card
+        template:
+          - switch
+    - domain: cover
+      area: Bedroom
+      name: '/^.*[Bb]linds$/'
+      options:
+        type: custom:button-card
+        template:
+          - blind

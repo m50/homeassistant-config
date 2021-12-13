@@ -35,33 +35,21 @@ cards:
     grid-gap: 10px
     grid-template-columns: repeat(3, 1fr)
   cards:
-  - type: button
-    tap_action:
-      action: call-service
-      service: scene.turn_on
-      service_data: {}
-      target:
-        entity_id: scene.bedroom_lights_off
+  - type: custom:button-card
     entity: scene.bedroom_lights_off
-    name: 'Off'
-  - type: button
-    tap_action:
-      action: call-service
-      service: scene.turn_on
-      service_data: {}
-      target:
-        entity_id: scene.bedroom_lights_low
+    name: 'Lights Off'
+    template:
+      - scene
+  - type: custom:button-card
     entity: scene.bedroom_lights_low
-    name: Low
-  - type: button
-    tap_action:
-      action: call-service
-      service: scene.turn_on
-      service_data: {}
-      target:
-        entity_id: scene.bedroom_lights_high
+    name: 'Lights Low'
+    template:
+      - scene
+  - type: custom:button-card
     entity: scene.bedroom_lights_high
-    name: High
+    name: 'Lights High'
+    template:
+      - scene
 
 # Buttons
 - type: custom:auto-entities
@@ -81,7 +69,6 @@ cards:
         type: custom:button-card
         template:
           - light
-          - toggle_icon
     - domain: switch
       area: Bedroom
       name: '/^(.*[lL]ight.*|.*[Cc]hristmas.*)$/'
@@ -89,13 +76,10 @@ cards:
         type: custom:button-card
         template:
           - switch
-          - toggle_icon
-
-# Blinds
-- type: entities
-  title: Blinds
-  view_layout:
-    grid-column: 1 / -1
-  entities:
-    - entity: cover.bedroom_side_blinds
-      type: custom:slider-entity-row
+    - domain: cover
+      area: Bedroom
+      name: '/^.*[Bb]linds$/'
+      options:
+        type: custom:button-card
+        template:
+          - blind
