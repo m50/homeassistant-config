@@ -33,10 +33,23 @@ cards:
       grid-template-columns: 2fr 1fr
     cards:
     - type: markdown
+      style: |
+        ha-card {
+          color: var(--light-primary-color);
+          box-shadow: none;
+          background: none;
+        }
       content: |
         # Kitchen
     - type: markdown
       content: "## {{ states('sensor.kitchen_temperature') }}°"
+      style: |
+        ha-card {
+          color: var(--light-primary-color);
+          box-shadow: none;
+          background: none;
+          float: right;
+        }
 
 - type: custom:button-card
   entity: switch.kitchen_light

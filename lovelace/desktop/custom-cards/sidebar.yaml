@@ -26,6 +26,7 @@ cards:
       # {{ as_timestamp(now()) | timestamp_custom("%I:%M %p") }}
     style: |
       ha-card {
+        --primary-text-color: var(--light-primary-color);
         box-shadow: none;
         background: none;
       }
@@ -34,6 +35,7 @@ cards:
       # {{ states('sensor.average_temperature') }}°
     style: |
       ha-card {
+        --primary-text-color: var(--light-primary-color);
         float: right;
         box-shadow: none;
         background: none;
@@ -48,6 +50,8 @@ cards:
 - type: weather-forecast
   style: |
     ha-card {
+      --primary-text-color: var(--light-primary-color);
+      --secondary-text-color: var(--light-primary-color);
       box-shadow: none;
       background: none;
     }

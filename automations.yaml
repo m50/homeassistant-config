@@ -234,17 +234,6 @@
     entity_id: switch.hallway_light
     domain: switch
   mode: single
-- id: '1636946338689'
-  alias: Bedroom Kick lights
-  description: ''
-  use_blueprint:
-    path: homeassistant/motion_light.yaml
-    input:
-      motion_entity: binary_sensor.foot_motion
-      light_target:
-        device_id: f034f5f14e7def41bff7eac1708f3882
-      no_motion_wait: 30
-      only_when_dark: true
 - id: '1636996449089'
   alias: Study Lights
   description: ''
@@ -294,20 +283,16 @@
   alias: 'Arrive Home: Hallway Light On'
   description: ''
   trigger:
-  - platform: device
-    device_id: af582cd7defcd1e5dc2536abf014a61d
-    domain: device_tracker
-    entity_id: device_tracker.marisa_phone
-    type: enters
+  - platform: zone
+    entity_id: person.marisa_clardy
     zone: zone.home
+    event: enter
   condition: []
   action:
   - wait_for_trigger:
-    - type: opened
-      platform: device
-      device_id: 9ff0d7a4667b067396237b8b9aaa6b3c
-      entity_id: binary_sensor.front_door_open
-      domain: binary_sensor
+    - platform: state
+      entity_id: binary_sensor.front_door
+      to: open
   - service: tts.cloud_say
     data:
       entity_id: media_player.kitchen
@@ -535,3 +520,19 @@
     entity_id: switch.christmas_tree_on_off
     domain: switch
   mode: single
+- id: '1639000471493'
+  alias: Wallmote Quad Buttons
+  description: ''
+  use_blueprint:
+    path: marisa/wallmote-quad.yaml
+    input:
+      wallmote_quad_device: faec83aec8ea4c3535930b6276038337
+      button_1_pressed:
+      - type: toggle
+        device_id: bf9e68dfb382267abb0c244d9929360e
+        entity_id: light.lamp
+        domain: light
+      - type: toggle
+        device_id: cbfe7f94d75c71a41271077c0554c814
+        entity_id: light.desk_lamp
+        domain: light

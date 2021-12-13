@@ -34,13 +34,33 @@ cards:
     - type: markdown
       content: |
         # Bedroom
+      style: |
+        ha-card {
+          color: var(--light-primary-color);
+          box-shadow: none;
+          background: none;
+        }
     - type: markdown
       content: "## {{ states('sensor.bedroom_temperature') }}°"
+      style: |
+        ha-card {
+          color: var(--light-primary-color);
+          box-shadow: none;
+          background: none;
+          float: right;
+        }
     - type: horizontal-stack
       view_layout:
         grid-column: 1 / -1
       cards:
         - type: button
+          style: |
+            ha-card {
+              --primary-text-color: var(--light-primary-color);
+              --secondary-text-color: var(--light-primary-color);
+              box-shadow: none;
+              background: none;
+            }
           tap_action:
             action: call-service
             service: scene.turn_on
@@ -51,6 +71,13 @@ cards:
           show_name: true
           name: 'Off'
         - type: button
+          style: |
+            ha-card {
+              --primary-text-color: var(--light-primary-color);
+              --secondary-text-color: var(--light-primary-color);
+              box-shadow: none;
+              background: none;
+            }
           tap_action:
             action: call-service
             service: scene.turn_on
@@ -60,6 +87,13 @@ cards:
           entity: scene.bedroom_lights_low
           name: Low
         - type: button
+          style: |
+            ha-card {
+              --primary-text-color: var(--light-primary-color);
+              --secondary-text-color: var(--light-primary-color);
+              box-shadow: none;
+              background: none;
+            }
           tap_action:
             action: call-service
             service: scene.turn_on

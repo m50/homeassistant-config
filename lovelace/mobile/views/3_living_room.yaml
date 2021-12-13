@@ -33,10 +33,23 @@ cards:
       grid-template-columns: 2fr 1fr
     cards:
     - type: markdown
+      style: |
+        ha-card {
+          color: var(--light-primary-color);
+          box-shadow: none;
+          background: none;
+        }
       content: |
         # Living Room
     - type: markdown
       content: "## {{ states('sensor.avg_living_room_temperature') }}°"
+      style: |
+        ha-card {
+          color: var(--light-primary-color);
+          box-shadow: none;
+          background: none;
+          float: right;
+        }
 
 - type: custom:button-card
   entity: switch.christmas_tree_on_off
