@@ -290,9 +290,12 @@
   condition: []
   action:
   - wait_for_trigger:
-    - platform: state
+    - type: opened
+      platform: device
+      device_id: 9ff0d7a4667b067396237b8b9aaa6b3c
       entity_id: binary_sensor.front_door
-      to: open
+      domain: binary_sensor
+    continue_on_timeout: false
   - service: tts.cloud_say
     data:
       entity_id: media_player.kitchen
@@ -412,20 +415,16 @@
       - condition: trigger
         id: sunrise
       sequence:
-      - device_id: d9d9e42e45e105ad8b430a2618b8e8df
-        domain: cover
-        entity_id: cover.bedroom_side_blinds
-        type: set_position
-        position: 100
+      - service: cover.open_cover
+        target:
+          area_id: bedroom
     - conditions:
       - condition: trigger
         id: sunset
       sequence:
-      - device_id: d9d9e42e45e105ad8b430a2618b8e8df
-        domain: cover
-        entity_id: cover.bedroom_side_blinds
-        type: set_position
-        position: 0
+      - service: cover.close_cover
+        target:
+          area_id: bedroom
     default: []
   mode: single
 - id: '1638224503187'
@@ -483,27 +482,21 @@
         device_id: d9d9e42e45e105ad8b430a2618b8e8df
         domain: cover
         entity_id: cover.bedroom_side_blinds
-        type: is_position
-        below: 7
+        type: is_open
       sequence:
-      - device_id: d9d9e42e45e105ad8b430a2618b8e8df
-        domain: cover
-        entity_id: cover.bedroom_side_blinds
-        type: set_position
-        position: 100
+      - service: cover.close_cover
+        target:
+          area_id: bedroom
     - conditions:
       - condition: device
         device_id: d9d9e42e45e105ad8b430a2618b8e8df
         domain: cover
         entity_id: cover.bedroom_side_blinds
-        type: is_position
-        above: 93
+        type: is_closed
       sequence:
-      - device_id: d9d9e42e45e105ad8b430a2618b8e8df
-        domain: cover
-        entity_id: cover.bedroom_side_blinds
-        type: set_position
-        position: 0
+      - service: cover.open_cover
+        target:
+          area_id: bedroom
     default: []
   mode: single
 - id: '1638744616530'

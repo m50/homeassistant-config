@@ -47,4 +47,9 @@ cards:
         type: custom:button-card
         template:
           - switch
-          - toggle_icon
+    - domain: light
+      area: Kitchen
+      options:
+        type: custom:button-card
+        template:
+          - light

@@ -219,16 +219,15 @@ scene:
     - base
     - icon_entity
   custom_fields:
-    circle: >
+    sw: >
       <ha-icon icon="mdi:presentation"></ha-icon>
   styles:
     custom_fields:
-      circle:
+      sw:
         - display: initial
-        - width: 40%
+        - width: 20%
         - letter-spacing: 0.03vw
-        - margin: -6% -6% 0 0
-        - justify-self: end
+        - justify-self: start
   haptic: medium
   tap_action:
     action: call-service
