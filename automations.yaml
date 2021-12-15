@@ -185,37 +185,40 @@
   action:
   - choose:
     - conditions:
-      - condition: trigger
-        id: lights_on
+      - condition: and
+        conditions:
+        - condition: trigger
+          id: lights_on
+        - condition: state
+          entity_id: sun.sun
+          state: above_horizon
       sequence:
-      - type: turn_on
-        device_id: 344e7812953a6847df3d8527d9e86bd8
-        entity_id: light.fan_light_1
-        domain: light
-      - type: turn_on
-        device_id: 35807f1c961ef52564fc8671315f9c00
-        entity_id: light.fan_light_2
-        domain: light
-      - type: turn_on
-        device_id: f58957d7536a588f98369305882c9e6a
-        entity_id: light.fan_light_3
-        domain: light
+      - service: light.turn_on
+        target:
+          area_id: kitchen
+        data:
+          color_temp: 270
     - conditions:
       - condition: trigger
         id: lights_off
       sequence:
-      - type: turn_off
-        device_id: 344e7812953a6847df3d8527d9e86bd8
-        entity_id: light.fan_light_1
-        domain: light
-      - type: turn_off
-        device_id: 35807f1c961ef52564fc8671315f9c00
-        entity_id: light.fan_light_2
-        domain: light
-      - type: turn_off
-        device_id: f58957d7536a588f98369305882c9e6a
-        entity_id: light.fan_light_3
-        domain: light
+      - service: light.turn_off
+        target:
+          area_id: kitchen
+    - conditions:
+      - condition: and
+        conditions:
+        - condition: state
+          entity_id: sun.sun
+          state: below_horizon
+        - condition: trigger
+          id: lights_on
+      sequence:
+      - service: light.turn_on
+        target:
+          area_id: kitchen
+        data:
+          color_temp: 370
     default: []
   mode: single
 - id: '1636943258539'

@@ -11,3 +11,17 @@ alert_phone:
   mode: single
   alias: Alert Phone
   icon: mdi:alarm-light
+romantic_mode:
+  alias: Romantic mode
+  sequence:
+  - service: media_player.play_media
+    target:
+      entity_id: media_player.bedroom
+    data:
+      media_content_type: playlist
+      media_content_id: https://open.spotify.com/playlist/37i9dQZF1DX9RwfGbeGQwP?si=385c8dce3d044770
+  - service: scene.turn_on
+    target:
+      entity_id: scene.romantic_lights
+  mode: single
+  icon: mdi:cards-heart
