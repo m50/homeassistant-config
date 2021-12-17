@@ -260,26 +260,16 @@
       - condition: trigger
         id: macbook_active
       sequence:
-      - type: turn_on
-        device_id: bf9e68dfb382267abb0c244d9929360e
-        entity_id: light.lamp
-        domain: light
-      - type: turn_on
-        device_id: cbfe7f94d75c71a41271077c0554c814
-        entity_id: light.desk_lamp
-        domain: light
+      - service: light.turn_on
+        target:
+          area_id: study
     - conditions:
       - condition: trigger
         id: macbook_inactive
       sequence:
-      - type: turn_off
-        device_id: bf9e68dfb382267abb0c244d9929360e
-        entity_id: light.lamp
-        domain: light
-      - type: turn_off
-        device_id: cbfe7f94d75c71a41271077c0554c814
-        entity_id: light.desk_lamp
-        domain: light
+      - service: light.turn_off
+        target:
+          area_id: study
     default: []
   mode: restart
 - id: '1637124125495'
@@ -327,10 +317,14 @@
     device_id: 962c98d6430a6688cbf465747c5a0e7a
     entity_id: binary_sensor.kitchen_motion
     domain: binary_sensor
+    for:
+      hours: 1
+      minutes: 0
+      seconds: 0
   condition:
   - condition: state
-    entity_id: input_select.system_mode
-    state: Home
+    entity_id: sun.sun
+    state: below_horizon
   action:
   - type: turn_on
     device_id: c136c02ac81d79ade4781284c42869bc
