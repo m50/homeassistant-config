@@ -1,0 +1,19 @@
+- platform: momentary
+  name: '!Alexa Orb Motion Sensor'
+  toggle_for: 30
+  cancellable: true
+
+- platform: momentary
+  name: '!Bedroom Wyze Person Sensor'
+  toggle_for: 30
+  cancellable: true
+
+- platform: momentary
+  name: '!Hallway Wyze Person Sensor'
+  toggle_for: 30
+  cancellable: true
+
+- platform: momentary
+  name: '!Living Room Wyze Person Sensor'
+  toggle_for: 30
+  cancellable: true

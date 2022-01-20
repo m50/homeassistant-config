@@ -18,7 +18,7 @@ cards:
       margin-top: calc(var(--vertical-margin) * -2);
       margin-left: calc(var(--horizontal-margin) * -3);
       margin-right: calc(var(--horizontal-margin) * -3);
-      background: var(--primary-color);
+      background: var(--sidebar-background-color);
       color: var(--accent-color);
       padding-bottom: 1rem;
       padding-top: 1rem;

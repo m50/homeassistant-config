@@ -39,7 +39,7 @@
   alias: Bedroom Light Management
   description: Control bedroom lights based on time of day and buttons pressed.
   trigger:
-  - device_id: 36ba91f41f19c8a6fa4d4f915da8020c
+  - device_id: 5d4519c5061ba4bf32d470d259c61a6e
     domain: zha
     platform: device
     type: remote_button_short_press
@@ -48,7 +48,7 @@
   - platform: time
     at: 00:00:00
     id: midnight
-  - device_id: 36ba91f41f19c8a6fa4d4f915da8020c
+  - device_id: 5d4519c5061ba4bf32d470d259c61a6e
     domain: zha
     platform: device
     type: remote_button_short_press
@@ -57,25 +57,25 @@
   - platform: time
     at: '23:00:00'
     id: 11pm
-  - device_id: 36ba91f41f19c8a6fa4d4f915da8020c
+  - device_id: 5d4519c5061ba4bf32d470d259c61a6e
     domain: zha
     platform: device
     type: remote_button_long_press
     subtype: dim_up
     id: light_switch_on_long_press
-  - device_id: f0574405ffb61d939f67270bd80027eb
+  - device_id: 43ef8bdd769458f414690d21141976db
     domain: zha
     platform: device
     type: remote_button_short_press
     subtype: turn_on
     id: remote_toggle
-  - device_id: f0574405ffb61d939f67270bd80027eb
+  - device_id: 43ef8bdd769458f414690d21141976db
     domain: zha
     platform: device
     type: remote_button_short_press
     subtype: dim_up
     id: remote_up
-  - device_id: f0574405ffb61d939f67270bd80027eb
+  - device_id: 43ef8bdd769458f414690d21141976db
     domain: zha
     platform: device
     type: remote_button_short_press
@@ -97,7 +97,7 @@
             id: remote_toggle
           - condition: device
             type: is_on
-            device_id: e7ab46b05b6bc6bf88eb601cd0a491a3
+            device_id: ec3f798bc249a8599b62f0fab50dc6a5
             entity_id: switch.fairy_lights
             domain: switch
       sequence:
@@ -117,7 +117,7 @@
                 id: remote_toggle
               - condition: device
                 type: is_off
-                device_id: e7ab46b05b6bc6bf88eb601cd0a491a3
+                device_id: ec3f798bc249a8599b62f0fab50dc6a5
                 entity_id: switch.fairy_lights
                 domain: switch
             - condition: trigger
@@ -147,7 +147,7 @@
                 id: remote_toggle
               - condition: device
                 type: is_off
-                device_id: e7ab46b05b6bc6bf88eb601cd0a491a3
+                device_id: ec3f798bc249a8599b62f0fab50dc6a5
                 entity_id: switch.fairy_lights
                 domain: switch
           - condition: or
@@ -171,13 +171,13 @@
   trigger:
   - platform: device
     type: turned_on
-    device_id: c136c02ac81d79ade4781284c42869bc
+    device_id: 95f048b21aa9bd471dffdaa39672611d
     entity_id: switch.kitchen_light
     domain: switch
     id: lights_on
   - platform: device
     type: turned_off
-    device_id: c136c02ac81d79ade4781284c42869bc
+    device_id: 95f048b21aa9bd471dffdaa39672611d
     entity_id: switch.kitchen_light
     domain: switch
     id: lights_off
@@ -194,17 +194,17 @@
           state: above_horizon
       sequence:
       - service: light.turn_on
-        target:
-          area_id: kitchen
         data:
           color_temp: 270
+        target:
+          entity_id: light.kitchen_fan_lights
     - conditions:
       - condition: trigger
         id: lights_off
       sequence:
       - service: light.turn_off
         target:
-          area_id: kitchen
+          entity_id: light.kitchen_fan_lights
     - conditions:
       - condition: and
         conditions:
@@ -225,7 +225,7 @@
   alias: 'Hallway Button Pressed: Toggle Hallway Light'
   description: ''
   trigger:
-  - device_id: 3693d5d22387569ba41807c486903bbd
+  - device_id: f472bbaf5fdfa4eed5289700190fa35a
     domain: zha
     platform: device
     type: remote_button_short_press
@@ -233,7 +233,7 @@
   condition: []
   action:
   - type: toggle
-    device_id: b71e4d4788bb167773237c28d61db7bb
+    device_id: 0054a4ac2d37c4fa93d18e2e92909d66
     entity_id: switch.hallway_light
     domain: switch
   mode: single
@@ -243,14 +243,14 @@
   trigger:
   - type: turned_on
     platform: device
-    device_id: 907e341d89c5be672843b14a188fd193
-    entity_id: binary_sensor.macbook_active
+    device_id: 98ad68c37e01ed37cfff94de4e243af8
+    entity_id: binary_sensor.gd_macbook_active
     domain: binary_sensor
     id: macbook_active
   - type: turned_off
     platform: device
-    device_id: 907e341d89c5be672843b14a188fd193
-    entity_id: binary_sensor.macbook_active
+    device_id: 98ad68c37e01ed37cfff94de4e243af8
+    entity_id: binary_sensor.gd_macbook_active
     domain: binary_sensor
     id: macbook_inactive
   condition: []
@@ -285,26 +285,21 @@
   - wait_for_trigger:
     - type: opened
       platform: device
-      device_id: 9ff0d7a4667b067396237b8b9aaa6b3c
+      device_id: 39f88ffb037953a6837e5054f1ee0be8
       entity_id: binary_sensor.front_door
       domain: binary_sensor
     continue_on_timeout: false
-  - service: tts.cloud_say
-    data:
-      entity_id: media_player.kitchen
-      message: Welcome Home!
-      cache: true
   - type: turn_on
-    device_id: b71e4d4788bb167773237c28d61db7bb
+    device_id: 0054a4ac2d37c4fa93d18e2e92909d66
     entity_id: switch.hallway_light
     domain: switch
   - delay:
       hours: 0
-      minutes: 1
+      minutes: 5
       seconds: 0
       milliseconds: 0
   - type: turn_off
-    device_id: b71e4d4788bb167773237c28d61db7bb
+    device_id: 0054a4ac2d37c4fa93d18e2e92909d66
     entity_id: switch.hallway_light
     domain: switch
   mode: single
@@ -314,27 +309,19 @@
   trigger:
   - type: motion
     platform: device
-    device_id: 962c98d6430a6688cbf465747c5a0e7a
-    entity_id: binary_sensor.kitchen_motion
+    device_id: 9882d00ad4439fbf80486d60b583e169
+    entity_id: binary_sensor.kitchen_motion_sensor
     domain: binary_sensor
-    for:
-      hours: 1
-      minutes: 0
-      seconds: 0
-  condition:
-  - condition: state
-    entity_id: sun.sun
-    state: below_horizon
+  condition: []
   action:
-  - type: turn_on
-    device_id: c136c02ac81d79ade4781284c42869bc
-    entity_id: switch.kitchen_light
-    domain: switch
+  - service: switch.turn_on
+    target:
+      area_id: kitchen
   - wait_for_trigger:
     - type: no_motion
       platform: device
-      device_id: 962c98d6430a6688cbf465747c5a0e7a
-      entity_id: binary_sensor.kitchen_motion
+      device_id: 9882d00ad4439fbf80486d60b583e169
+      entity_id: binary_sensor.kitchen_motion_sensor
       domain: binary_sensor
     continue_on_timeout: true
     timeout: 00:25:00
@@ -343,10 +330,9 @@
       minutes: 1
       seconds: 0
       milliseconds: 0
-  - type: turn_off
-    device_id: c136c02ac81d79ade4781284c42869bc
-    entity_id: switch.kitchen_light
-    domain: switch
+  - service: switch.turn_off
+    target:
+      area_id: kitchen
   mode: restart
 - id: '1637817372671'
   alias: Lights off at midnight
@@ -356,43 +342,20 @@
     at: 00:00:00
   condition: []
   action:
-  - scene: scene.bedroom_lights_off
-  - type: turn_off
-    device_id: c136c02ac81d79ade4781284c42869bc
-    entity_id: switch.kitchen_light
-    domain: switch
-  - type: turn_off
-    device_id: 69b1ccedd2cc904b45e26ace20117573
-    entity_id: light.tv_backlights
-    domain: light
-  - type: turn_off
-    device_id: 09d911bf1269455d7b6e302e06eea4ea
-    entity_id: light.couch_lamp
-    domain: light
-  - type: turn_off
-    device_id: cbfe7f94d75c71a41271077c0554c814
-    entity_id: light.desk_lamp
-    domain: light
-  - type: turn_off
-    device_id: b5bab84823b70c1214acc60cee91996f
-    entity_id: light.rectangulamp
-    domain: light
-  - type: turn_off
-    device_id: bf9e68dfb382267abb0c244d9929360e
-    entity_id: light.lamp
-    domain: light
-  - type: turn_off
-    device_id: c10e8b604af4f4c22e62f377c6ecca87
-    entity_id: switch.cube_light_on_off
-    domain: switch
-  - type: turn_off
-    device_id: b71e4d4788bb167773237c28d61db7bb
-    entity_id: switch.hallway_light
-    domain: switch
-  - type: turn_off
-    device_id: f84cd5c0ed24eaf6c3a25c4f7046b484
-    entity_id: switch.christmas_tree_on_off
-    domain: switch
+  - service: light.turn_off
+    target:
+      area_id:
+      - study
+      - study
+      - kitchen
+      - living_room
+  - service: switch.turn_off
+    target:
+      entity_id:
+      - switch.cube_light
+      - switch.fairy_lights
+      - switch.hallway_light
+      - switch.kitchen_light
   mode: single
 - id: '1637979359844'
   alias: Automatic Blinds
@@ -428,17 +391,13 @@
   alias: Closet Light
   description: ''
   trigger:
-  - type: opened
-    platform: device
-    device_id: 24f0cbaa146a7cf8102c68fdc0341b09
-    entity_id: binary_sensor.closet_door_open
-    domain: binary_sensor
+  - platform: state
+    entity_id: group.closet_doors
     id: door_open
-  - type: not_opened
-    platform: device
-    device_id: 24f0cbaa146a7cf8102c68fdc0341b09
-    entity_id: binary_sensor.closet_door_open
-    domain: binary_sensor
+    to: 'on'
+  - platform: state
+    entity_id: group.closet_doors
+    from: 'on'
   condition: []
   action:
   - choose:
@@ -446,27 +405,25 @@
       - condition: trigger
         id: door_open
       sequence:
-      - type: turn_on
-        device_id: 50288c95c83a403ec3e68cb488b6e97f
-        entity_id: light.closet_light
-        domain: light
+      - service: light.turn_on
+        target:
+          area_id: bedroom_closet
     default:
-    - type: turn_off
-      device_id: 50288c95c83a403ec3e68cb488b6e97f
-      entity_id: light.closet_light
-      domain: light
+    - service: light.turn_off
+      target:
+        area_id: bedroom_closet
   mode: queued
   max: 10
 - id: '1638226343221'
   alias: Toggle Bedroom Blinds
   description: ''
   trigger:
-  - device_id: 3693d5d22387569ba41807c486903bbd
+  - device_id: f472bbaf5fdfa4eed5289700190fa35a
     domain: zha
     platform: device
     type: remote_button_long_press
     subtype: remote_button_long_press
-  - device_id: 36ba91f41f19c8a6fa4d4f915da8020c
+  - device_id: 5d4519c5061ba4bf32d470d259c61a6e
     domain: zha
     platform: device
     type: remote_button_long_press
@@ -496,33 +453,67 @@
           area_id: bedroom
     default: []
   mode: single
-- id: '1638744616530'
-  alias: Turn on Christmas Tree in the morning
-  description: ''
-  trigger:
-  - platform: sun
-    event: sunrise
-    offset: '0'
-  condition: []
-  action:
-  - type: turn_on
-    device_id: f84cd5c0ed24eaf6c3a25c4f7046b484
-    entity_id: switch.christmas_tree_on_off
-    domain: switch
-  mode: single
 - id: '1639000471493'
   alias: Wallmote Quad Buttons
   description: ''
   use_blueprint:
     path: marisa/wallmote-quad.yaml
     input:
-      wallmote_quad_device: faec83aec8ea4c3535930b6276038337
       button_1_pressed:
-      - type: toggle
-        device_id: bf9e68dfb382267abb0c244d9929360e
-        entity_id: light.lamp
-        domain: light
-      - type: toggle
-        device_id: cbfe7f94d75c71a41271077c0554c814
-        entity_id: light.desk_lamp
-        domain: light
+      - service: light.toggle
+        target:
+          device_id:
+          - 3c2d9a21e111aa94461e00be3ee8049a
+          - 81325d520d5e6a537adab3c03b012562
+      wallmote_quad_device: 2215822cc9e1c7592c0516ae781156f9
+      button_4_pressed:
+      - service: switch.turn_off
+        target:
+          device_id:
+          - 95f048b21aa9bd471dffdaa39672611d
+          - 0054a4ac2d37c4fa93d18e2e92909d66
+- id: '1642101052868'
+  alias: Morning Lights
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sun.sun
+    to: above_horizon
+  condition: []
+  action:
+  - service: light.turn_on
+    target:
+      device_id: 791cf67ec07bd1f310257dd2da0ebf09
+  - service: switch.turn_on
+    target:
+      device_id: 663c92fa8127140d4ac20bd6b876d974
+  mode: single
+- id: '1642361541314'
+  alias: Person Detection Bedroom Lights
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: switch.alexa_orb_motion_sensor
+    to: 'on'
+  - platform: state
+    entity_id: switch.bedroom_wyze_person_sensor
+    to: 'on'
+  condition:
+  - condition: time
+    before: '23:00:00'
+    after: 08:00:00
+  action:
+  - service: scene.turn_on
+    target:
+      entity_id: scene.bedroom_lights_high
+  - delay:
+      hours: 0
+      minutes: 5
+      seconds: 0
+      milliseconds: 0
+  - service: scene.turn_on
+    target:
+      entity_id: scene.bedroom_lights_off
+    data:
+      transition: 15
+  mode: restart

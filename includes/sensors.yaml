@@ -5,8 +5,8 @@
   entity_ids:
     - sensor.hallway_temperature
     - sensor.kitchen_temperature
-    - sensor.living_room_temperature
-    - sensor.living_room_2_temperature
+    - sensor.living_room_weather_1_temperature
+    - sensor.living_room_weather_2_temperature
     - sensor.study_temperature
     - sensor.bedroom_temperature
 - platform: min_max
@@ -14,5 +14,5 @@
   type: mean
   round_digits: 1
   entity_ids:
-    - sensor.living_room_temperature
-    - sensor.living_room_2_temperature
+    - sensor.living_room_weather_1_temperature
+    - sensor.living_room_weather_2_temperature

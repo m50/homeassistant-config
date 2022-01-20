@@ -1,0 +1,4 @@
+zigpy_config:
+  network:
+    channel: 25
+    channels: [24, 25, 26]

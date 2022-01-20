@@ -60,7 +60,7 @@ base:
       - background-color: >
           [[[
             return variables.consider_on ?
-              'var(--primary-color)' :
+              'var(--dark-primary-color)' :
               '#fff';
           ]]]
   extra_styles: |

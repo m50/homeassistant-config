@@ -4,10 +4,10 @@ charcoal:
   vertical-margin: 0.6rem
   # Main colors
   ha-card-border-radius: '24px'
-  primary-color: '#333638'         # Header
-  accent-color: '#31c3a0'         # Accent color
+  primary-color: '#31c3a0'
+  accent-color: '#31c3a0'
   tertiary-color: '#e99c56'
-  dark-primary-color: var(--primary-color)     # Hyperlinks
+  dark-primary-color: '#333638'
   light-primary-color: '#fcfcfc'
   white: '#fff'
   mdc-theme-primary: var(--accent-color)
@@ -21,7 +21,7 @@ charcoal:
     0px 1px 1px 0px rgba(0, 0, 0, 0.14),
     0px 1px 3px 0px rgba(0, 0, 0, 0.12)
   # Fonts
-  primary-font-family: 'Raleway'
+  primary-font-family: 'Raleway, Comfortaa, Sans-Serif'
   paper-font-common-base_-_font-family: "var(--primary-font-family)"
   paper-font-common-code_-_font-family: "var(--primary-font-family)"
   paper-font-body1_-_font-family: "var(--primary-font-family)"
@@ -31,12 +31,13 @@ charcoal:
   paper-font-title_-_font-family: "var(--primary-font-family)"
   # Icon colors
   state-icon-active-color: var(--accent-color)
-  state-icon-color: var(--primary-color)
+  state-icon-color: var(--dark-primary-color)
   # Text colors
-  primary-text-color: 'var(--primary-color)'
+  primary-text-color: 'var(--dark-primary-color)'
   text-primary-color: 'var(--light-primary-color)'
   secondary-text-color: '#666'
   disabled-text-color: '#c2c2c6'
+  text-on-state-color: 'var(--text-primary-color)'
   app-header-text-color: 'var(--text-primary-color)'
   sidebar-menu-button-text-color: 'var(--sidebar-text-color)'
   sidebar-text-color: 'var(--app-header-text-color)'
@@ -47,15 +48,16 @@ charcoal:
   lovelace-background: 'linear-gradient(#e7e9ef, var(--light-primary-color))'
   primary-background-color: 'var(--light-primary-color)'   # Settings background
   secondary-background-color: 'var(--primary-background-color)' # Main card UI background
-  sidebar-background-color: 'var(--primary-color)'
-  divider-color: 'var(--primary-color)'
+  app-header-background-color: 'var(--dark-primary-color)'
+  sidebar-background-color: 'var(--dark-primary-color)'
+  divider-color: 'var(--dark-primary-color)'
   card-background-color: 'var(--white)'
   # Table rows
   table-row-background-color: 'var(--primary-background-color)' # Table row
   table-row-alternative-background-color: '#e4eaf1' # Table row alternative
   # Nav Menu
   paper-listbox-color: '#102a42'                       # Navigation menu selection hoover
-  paper-listbox-background-color: 'var(--primary-background-color)'         # Navigation menu background
+  paper-listbox-background-color: '#0000'         # Navigation menu background
   paper-grey-50: 'var(--primary-text-color)'
   paper-grey-200: '#414A59'                             # Navigation menu selection
   # Paper card

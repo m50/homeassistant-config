@@ -6,11 +6,11 @@ style: |
     top: 0;
     bottom: 0;
     width: 25%;
-    background-color: var(--primary-color);
+    background-color: var(--sidebar-background-color);
     color: var(--light-primary-color);
     --primary-text-color: var(--light-primary-color);
     --secondary-text-color: var(--light-primary-color);
-    --st-mode-background: var(--primary-color);
+    --st-mode-background: var(--dark-primary-color);
     border-radius: 0;
     padding: var(--vertical-margin);
   }

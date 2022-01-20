@@ -5,3 +5,4 @@ swipe_nav:
   prevent_default: true
 button_card_templates: !include ../button-card-templates.yaml
 views: !include_dir_list views
+

@@ -24,7 +24,7 @@ cards:
     grid-template-columns: 1fr 1fr 1fr
     grid-template-areas: |
       "bedroom livingroom kitchen"
-      "study   hallway    .      "
+      "bedroom study      hallway"
   cards:
     - !include ../custom-cards/kitchen.yaml
     - !include ../custom-cards/study.yaml

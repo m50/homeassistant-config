@@ -1,0 +1,6 @@
+closet_doors:
+  name: Closet Doors
+  icon: mdi:door-sliding
+  entities:
+  - binary_sensor.left_closet_door_ias_zone
+  - binary_sensor.right_closet_door_ias_zone

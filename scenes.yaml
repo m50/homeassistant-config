@@ -2,10 +2,10 @@
   name: Bedroom Lights Low
   entities:
     switch.fairy_lights:
-      friendly_name: Fairy Lights
       icon: mdi:string-lights
+      friendly_name: Fairy Lights
       state: 'on'
-    light.laundry_light:
+    light.bed_underglow:
       min_mireds: 154
       max_mireds: 500
       supported_color_modes:
@@ -25,18 +25,18 @@
       - 0.526
       - 0.387
       off_brightness:
-      icon: mdi:floor-lamp-torchiere
-      friendly_name: Laundry Lamp
+      icon: mdi:bed-king
+      friendly_name: Bed Underglow
       supported_features: 59
       state: 'on'
-    light.nightstand_lamp:
+    light.right_nighstand_lamp_on_off:
       min_mireds: 154
       max_mireds: 500
       supported_color_modes:
       - color_temp
       - hs
       color_mode: color_temp
-      brightness: 128
+      brightness: 64
       color_temp: 370
       hs_color:
       - 28.391
@@ -50,17 +50,17 @@
       - 0.387
       off_brightness:
       icon: mdi:lamp
-      friendly_name: Left Nightstand Lamp
+      friendly_name: Right Nighstand Lamp
       supported_features: 59
       state: 'on'
-    light.right_nightstand_lamp_level_light_color_on_off:
+    light.left_nighstand_lamp:
       min_mireds: 154
       max_mireds: 500
       supported_color_modes:
       - color_temp
       - hs
       color_mode: color_temp
-      brightness: 128
+      brightness: 64
       color_temp: 369
       hs_color:
       - 28.373
@@ -74,17 +74,17 @@
       - 0.388
       off_brightness:
       icon: mdi:lamp
-      friendly_name: Right Nightstand Lamp
+      friendly_name: Left Nighstand Lamp
       supported_features: 59
       state: 'on'
-    light.bed_underglow:
+    light.floor_lamp:
       min_mireds: 154
       max_mireds: 500
       supported_color_modes:
       - color_temp
       - hs
       color_mode: color_temp
-      brightness: 128
+      brightness: 64
       color_temp: 370
       hs_color:
       - 28.391
@@ -97,8 +97,8 @@
       - 0.526
       - 0.387
       off_brightness:
-      icon: mdi:bed-king-outline
-      friendly_name: Bed Underglow
+      icon: mdi:floor-lamp-torchiere
+      friendly_name: Floor Lamp
       supported_features: 59
       state: 'on'
   icon: mdi:bed-king
@@ -106,80 +106,8 @@
   name: Bedroom Lights High
   entities:
     switch.fairy_lights:
-      friendly_name: Fairy Lights
       icon: mdi:string-lights
-      state: 'on'
-    light.laundry_light:
-      min_mireds: 154
-      max_mireds: 500
-      supported_color_modes:
-      - color_temp
-      - hs
-      color_mode: color_temp
-      brightness: 254
-      color_temp: 370
-      hs_color:
-      - 28.391
-      - 65.659
-      rgb_color:
-      - 255
-      - 166
-      - 87
-      xy_color:
-      - 0.526
-      - 0.387
-      off_brightness:
-      icon: mdi:floor-lamp-torchiere
-      friendly_name: Laundry Lamp
-      supported_features: 59
-      state: 'on'
-    light.nightstand_lamp:
-      min_mireds: 154
-      max_mireds: 500
-      supported_color_modes:
-      - color_temp
-      - hs
-      color_mode: color_temp
-      brightness: 254
-      color_temp: 370
-      hs_color:
-      - 28.391
-      - 65.659
-      rgb_color:
-      - 255
-      - 166
-      - 87
-      xy_color:
-      - 0.526
-      - 0.387
-      off_brightness:
-      icon: mdi:lamp
-      friendly_name: Left Nightstand Lamp
-      supported_features: 59
-      state: 'on'
-    light.right_nightstand_lamp_level_light_color_on_off:
-      min_mireds: 154
-      max_mireds: 500
-      supported_color_modes:
-      - color_temp
-      - hs
-      color_mode: color_temp
-      brightness: 254
-      color_temp: 370
-      hs_color:
-      - 28.391
-      - 65.659
-      rgb_color:
-      - 255
-      - 166
-      - 87
-      xy_color:
-      - 0.526
-      - 0.387
-      off_brightness:
-      icon: mdi:lamp
-      friendly_name: Right Nightstand Lamp
-      supported_features: 59
+      friendly_name: Fairy Lights
       state: 'on'
     light.bed_underglow:
       min_mireds: 154
@@ -201,8 +129,80 @@
       - 0.526
       - 0.387
       off_brightness:
-      icon: mdi:bed-king-outline
+      icon: mdi:bed-king
       friendly_name: Bed Underglow
+      supported_features: 59
+      state: 'on'
+    light.right_nighstand_lamp_on_off:
+      min_mireds: 154
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - hs
+      color_mode: color_temp
+      brightness: 254
+      color_temp: 370
+      hs_color:
+      - 28.391
+      - 65.659
+      rgb_color:
+      - 255
+      - 166
+      - 87
+      xy_color:
+      - 0.526
+      - 0.387
+      off_brightness:
+      icon: mdi:lamp
+      friendly_name: Right Nighstand Lamp
+      supported_features: 59
+      state: 'on'
+    light.left_nighstand_lamp:
+      min_mireds: 154
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - hs
+      color_mode: color_temp
+      brightness: 254
+      color_temp: 369
+      hs_color:
+      - 28.373
+      - 65.405
+      rgb_color:
+      - 255
+      - 167
+      - 88
+      xy_color:
+      - 0.524
+      - 0.388
+      off_brightness:
+      icon: mdi:lamp
+      friendly_name: Left Nighstand Lamp
+      supported_features: 59
+      state: 'on'
+    light.floor_lamp:
+      min_mireds: 154
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - hs
+      color_mode: color_temp
+      brightness: 254
+      color_temp: 369
+      hs_color:
+      - 28.373
+      - 65.405
+      rgb_color:
+      - 255
+      - 167
+      - 88
+      xy_color:
+      - 0.524
+      - 0.388
+      off_brightness:
+      icon: mdi:floor-lamp-torchiere
+      friendly_name: Floor Lamp
       supported_features: 59
       state: 'on'
   icon: mdi:bed-king
@@ -210,40 +210,8 @@
   name: Bedroom Lights Off
   entities:
     switch.fairy_lights:
+      icon: mdi:string-lights
       friendly_name: Fairy Lights
-      state: 'off'
-    light.laundry_light:
-      min_mireds: 154
-      max_mireds: 500
-      supported_color_modes:
-      - color_temp
-      - hs
-      off_brightness:
-      friendly_name: Laundry Lamp
-      icon: mdi:floor-lamp-torchiere
-      supported_features: 59
-      state: 'off'
-    light.nightstand_lamp:
-      min_mireds: 154
-      max_mireds: 500
-      supported_color_modes:
-      - color_temp
-      - hs
-      off_brightness:
-      friendly_name: Left Nightstand Lamp
-      icon: mdi:lamp
-      supported_features: 59
-      state: 'off'
-    light.right_nightstand_lamp_level_light_color_on_off:
-      min_mireds: 154
-      max_mireds: 500
-      supported_color_modes:
-      - color_temp
-      - hs
-      off_brightness:
-      friendly_name: Right Nightstand Lamp
-      icon: mdi:lamp
-      supported_features: 59
       state: 'off'
     light.bed_underglow:
       min_mireds: 154
@@ -252,8 +220,41 @@
       - color_temp
       - hs
       off_brightness:
+      icon: mdi:bed-king
       friendly_name: Bed Underglow
-      icon: mdi:bed-king-outline
+      supported_features: 59
+      state: 'off'
+    light.left_nighstand_lamp:
+      min_mireds: 154
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - hs
+      off_brightness:
+      icon: mdi:lamp
+      friendly_name: Left Nighstand Lamp
+      supported_features: 59
+      state: 'off'
+    light.right_nighstand_lamp_on_off:
+      min_mireds: 154
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - hs
+      off_brightness:
+      icon: mdi:lamp
+      friendly_name: Right Nighstand Lamp
+      supported_features: 59
+      state: 'off'
+    light.floor_lamp:
+      min_mireds: 154
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - hs
+      off_brightness:
+      icon: mdi:floor-lamp-torchiere
+      friendly_name: Floor Lamp
       supported_features: 59
       state: 'off'
   icon: mdi:bed-king-outline
@@ -279,61 +280,28 @@
       - 0.385
       - 0.155
       off_brightness:
-      icon: mdi:bed-king-outline
+      icon: mdi:bed-king
       friendly_name: Bed Underglow
       supported_features: 59
       state: 'on'
-    light.nightstand_lamp:
-      min_mireds: 154
-      max_mireds: 500
-      supported_color_modes:
-      - color_temp
-      - hs
-      color_mode: hs
-      brightness: 128
-      hs_color:
-      - 285
-      - 100
-      rgb_color:
-      - 191
-      - 0
-      - 255
-      xy_color:
-      - 0.301
-      - 0.116
-      off_brightness:
-      icon: mdi:lamp
-      friendly_name: Left Nightstand Lamp
-      supported_features: 59
-      state: 'on'
-    light.right_nightstand_lamp_level_light_color_on_off:
-      min_mireds: 154
-      max_mireds: 500
-      supported_color_modes:
-      - color_temp
-      - hs
-      color_mode: hs
-      brightness: 128
-      hs_color:
-      - 285
-      - 100
-      rgb_color:
-      - 191
-      - 0
-      - 255
-      xy_color:
-      - 0.301
-      - 0.116
-      off_brightness:
-      icon: mdi:lamp
-      friendly_name: Right Nightstand Lamp
-      supported_features: 59
-      state: 'on'
     switch.fairy_lights:
-      friendly_name: Fairy Lights
       icon: mdi:string-lights
+      friendly_name: Fairy Lights
       state: 'on'
-    light.laundry_light:
+    cover.bedroom_side_blinds:
+      current_position: 0
+      device_class: window
+      icon: mdi:window-shutter
+      friendly_name: Bedroom Side Blinds
+      supported_features: 15
+      state: closed
+    cover.bedroom_back_blinds:
+      device_class: window
+      icon: mdi:window-shutter
+      friendly_name: Bedroom Back Blinds
+      supported_features: 11
+      state: unknown
+    light.right_nighstand_lamp_on_off:
       min_mireds: 154
       max_mireds: 500
       supported_color_modes:
@@ -342,24 +310,64 @@
       color_mode: hs
       brightness: 254
       hs_color:
-      - 315
+      - 330
       - 100
       rgb_color:
       - 255
       - 0
-      - 191
+      - 127
       xy_color:
-      - 0.477
-      - 0.196
+      - 0.581
+      - 0.245
       off_brightness:
-      icon: mdi:floor-lamp-torchiere
-      friendly_name: Laundry Lamp
+      icon: mdi:lamp
+      friendly_name: Right Nighstand Lamp
       supported_features: 59
       state: 'on'
-    cover.bedroom_side_blinds:
-      current_position: 0
-      icon: mdi:window-open
-      friendly_name: Bedroom Side Blinds
-      supported_features: 15
-      state: closed
+    light.left_nighstand_lamp:
+      min_mireds: 154
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - hs
+      color_mode: hs
+      brightness: 254
+      hs_color:
+      - 300
+      - 100
+      rgb_color:
+      - 255
+      - 0
+      - 255
+      xy_color:
+      - 0.385
+      - 0.155
+      off_brightness:
+      icon: mdi:lamp
+      friendly_name: Left Nighstand Lamp
+      supported_features: 59
+      state: 'on'
+    light.floor_lamp:
+      min_mireds: 154
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - hs
+      color_mode: hs
+      brightness: 254
+      hs_color:
+      - 285
+      - 100
+      rgb_color:
+      - 191
+      - 0
+      - 255
+      xy_color:
+      - 0.301
+      - 0.116
+      off_brightness:
+      icon: mdi:floor-lamp-torchiere
+      friendly_name: Floor Lamp
+      supported_features: 59
+      state: 'on'
   icon: mdi:cards-heart
