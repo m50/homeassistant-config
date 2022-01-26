@@ -196,6 +196,7 @@
       - service: light.turn_on
         data:
           color_temp: 270
+          brightness_pct: 100
         target:
           entity_id: light.kitchen_fan_lights
     - conditions:
@@ -215,10 +216,11 @@
           id: lights_on
       sequence:
       - service: light.turn_on
-        target:
-          area_id: kitchen
         data:
           color_temp: 370
+          brightness_pct: 100
+        target:
+          entity_id: light.kitchen_fan_lights
     default: []
   mode: single
 - id: '1636943258539'
@@ -312,7 +314,20 @@
     device_id: 9882d00ad4439fbf80486d60b583e169
     entity_id: binary_sensor.kitchen_motion_sensor
     domain: binary_sensor
-  condition: []
+  condition:
+  - condition: state
+    entity_id: input_select.house_mode
+    state: home
+  - condition: or
+    conditions:
+    - condition: not
+      conditions:
+      - condition: state
+        entity_id: weather.home
+        state: sunny
+    - condition: state
+      entity_id: sun.sun
+      state: above_horizon
   action:
   - service: switch.turn_on
     target:
@@ -472,6 +487,10 @@
           device_id:
           - 95f048b21aa9bd471dffdaa39672611d
           - 0054a4ac2d37c4fa93d18e2e92909d66
+      button_2_pressed:
+      - service: homeassistant.toggle
+        target:
+          device_id: 663c92fa8127140d4ac20bd6b876d974
 - id: '1642101052868'
   alias: Morning Lights
   description: ''
@@ -489,7 +508,7 @@
       device_id: 663c92fa8127140d4ac20bd6b876d974
   mode: single
 - id: '1642361541314'
-  alias: Person Detection Bedroom Lights
+  alias: Bedroom Motion Lights
   description: ''
   trigger:
   - platform: state
@@ -498,22 +517,175 @@
   - platform: state
     entity_id: switch.bedroom_wyze_person_sensor
     to: 'on'
+  - type: motion
+    platform: device
+    device_id: 506192e8bb855dd18804e111cc31fcb0
+    entity_id: binary_sensor.bedroom_motion
+    domain: binary_sensor
+    id: motion
   condition:
-  - condition: time
-    before: '23:00:00'
-    after: 08:00:00
+  - condition: state
+    entity_id: input_select.house_mode
+    state: home
+  - condition: and
+    conditions:
+    - condition: device
+      device_id: 07cebfd898c6d67cc75dddf37f6ff640
+      domain: cover
+      entity_id: cover.bedroom_back_blinds
+      type: is_closed
+    - condition: device
+      device_id: 7cd813fe0c0d50a9c2cc3c98fe8f907c
+      domain: cover
+      entity_id: cover.bedroom_side_blinds
+      type: is_closed
   action:
   - service: scene.turn_on
     target:
       entity_id: scene.bedroom_lights_high
-  - delay:
-      hours: 0
-      minutes: 5
-      seconds: 0
-      milliseconds: 0
+    data:
+      transition: 1
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: motion
+      sequence:
+      - wait_for_trigger:
+        - type: no_motion
+          platform: device
+          device_id: 506192e8bb855dd18804e111cc31fcb0
+          entity_id: binary_sensor.bedroom_motion
+          domain: binary_sensor
+        continue_on_timeout: false
+    default:
+    - delay:
+        hours: 0
+        minutes: 5
+        seconds: 0
+        milliseconds: 0
   - service: scene.turn_on
     target:
       entity_id: scene.bedroom_lights_off
     data:
-      transition: 15
+      transition: 5
+  mode: restart
+- id: '1642915305659'
+  alias: Set House Mode
+  description: ''
+  trigger:
+  - platform: time
+    at: '23:00:00'
+    id: bedtime
+  - platform: zone
+    entity_id: person.marisa
+    zone: zone.home
+    event: enter
+    id: return_home
+  - platform: zone
+    entity_id: person.marisa
+    zone: zone.home
+    event: leave
+    id: leave_home
+  - platform: state
+    entity_id: media_player.fire_tv
+    from: 'off'
+    id: tv_on
+  - platform: state
+    id: tv_off
+    entity_id: media_player.fire_tv
+    to: 'off'
+  - platform: state
+    entity_id: sun.sun
+    to: above_horizon
+    id: morning
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: leave_home
+      sequence:
+      - service: input_select.select_option
+        target:
+          entity_id: input_select.house_mode
+        data:
+          option: away
+    - conditions:
+      - condition: trigger
+        id: tv_on
+      sequence:
+      - service: input_select.select_option
+        target:
+          entity_id: input_select.house_mode
+        data:
+          option: tv
+    - conditions:
+      - condition: and
+        conditions:
+        - condition: or
+          conditions:
+          - condition: trigger
+            id: return_home
+          - condition: trigger
+            id: tv_off
+        - condition: time
+          before: '23:00:00'
+      sequence:
+      - service: input_select.select_option
+        target:
+          entity_id: input_select.house_mode
+        data:
+          option: home
+    - conditions:
+      - condition: and
+        conditions:
+        - condition: or
+          conditions:
+          - condition: trigger
+            id: return_home
+          - condition: trigger
+            id: tv_off
+        - condition: or
+          conditions:
+          - condition: time
+            after: '23:00:00'
+          - condition: time
+            before: 07:00:00
+      sequence:
+      - service: input_select.select_option
+        target:
+          entity_id: input_select.house_mode
+        data:
+          option: night
+    - conditions:
+      - condition: and
+        conditions:
+        - condition: trigger
+          id: bedtime
+        - condition: not
+          conditions:
+          - condition: state
+            entity_id: media_player.fire_tv
+            state: 'off'
+      sequence:
+      - service: input_select.select_option
+        target:
+          entity_id: input_select.house_mode
+        data:
+          option: night
+    - conditions:
+      - condition: trigger
+        id: morning
+      sequence:
+      - service: input_select.select_option
+        target:
+          entity_id: input_select.house_mode
+        data:
+          option: home
+    default:
+    - service: input_select.select_option
+      target:
+        entity_id: input_select.house_mode
+      data:
+        option: night
   mode: restart

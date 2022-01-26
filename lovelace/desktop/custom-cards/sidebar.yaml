@@ -47,6 +47,16 @@ cards:
       background: none;
     }
 
+- type: entity
+  entity: input_select.house_mode
+  style: |
+    ha-card {
+      --primary-text-color: var(--light-primary-color);
+      --secondary-text-color: var(--light-primary-color);
+      box-shadow: none;
+      background: none;
+    }
+
 - type: weather-forecast
   style: |
     ha-card {
