@@ -44,7 +44,7 @@ cards:
           padding-bottom: 0;
         }
       content: |
-        # Overview - {{ states('input_select.house_mode') | title }}
+        # Overview - {{ states('sensor.home_mode') | title }}
     - type: markdown
       content: |
         ## {{ states('sensor.average_temperature') }}°

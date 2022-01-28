@@ -21,6 +21,7 @@ switch: !include includes/switches.yaml
 binary_sensor: !include includes/binary_sensors.yaml
 camera: !include includes/camera.yaml
 media_player: !include includes/media_players.yaml
+template: !include includes/template_sensors.yaml
 
 http:
   use_x_forwarded_for: true

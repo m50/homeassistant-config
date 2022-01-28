@@ -47,8 +47,9 @@ cards:
       background: none;
     }
 
-- type: entity
-  entity: input_select.house_mode
+- type: entities
+  entities: 
+    - sensor.home_mode
   style: |
     ha-card {
       --primary-text-color: var(--light-primary-color);

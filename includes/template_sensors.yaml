@@ -1,0 +1,22 @@
+- sensor:
+  - name: "Home Mode"
+    icon: >
+      {% if is_state('sensor.home_mode', 'home') %}
+        mdi:home
+      {% elif is_state('sensor.home_mode', 'away') %}
+        mdi:home-export-outline
+      {% elif is_state('sensor.home_mode', 'night') %}
+        mdi:weather-night
+      {% elif is_state('sensor.home_mode', 'tv') %}
+        mdi:television
+      {% endif %}
+    state: >
+      {% if not is_state('media_player.fire_tv', 'off') %}
+        tv
+      {% elif not is_state('person.marisa', 'home') %}
+        away
+      {% elif now() > today_at("23:00") or now() < today_at("07:00") %}
+        night
+      {% else %}
+        home
+      {% endif %}

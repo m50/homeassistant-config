@@ -232,7 +232,7 @@
       - hs
       off_brightness:
       icon: mdi:lamp
-      friendly_name: Left Nighstand Lamp
+      friendly_name: Left Nightstand Lamp
       supported_features: 59
       state: 'off'
     light.right_nighstand_lamp_on_off:
@@ -243,7 +243,7 @@
       - hs
       off_brightness:
       icon: mdi:lamp
-      friendly_name: Right Nighstand Lamp
+      friendly_name: Right Nightstand Lamp
       supported_features: 59
       state: 'off'
     light.floor_lamp:
