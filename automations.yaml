@@ -278,10 +278,9 @@
   alias: 'Arrive Home: Hallway Light On'
   description: ''
   trigger:
-  - platform: zone
-    entity_id: person.marisa_clardy
-    zone: zone.home
-    event: enter
+  - platform: state
+    entity_id: sensor.home_mode
+    from: away
   condition: []
   action:
   - wait_for_trigger:
@@ -315,9 +314,14 @@
     entity_id: binary_sensor.kitchen_motion_sensor
     domain: binary_sensor
   condition:
-  - condition: state
-    entity_id: input_select.house_mode
-    state: home
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: sensor.home_mode
+      state: home
+    - condition: state
+      entity_id: sensor.home_mode
+      state: tv
   - condition: or
     conditions:
     - condition: not
@@ -327,7 +331,7 @@
         state: sunny
     - condition: state
       entity_id: sun.sun
-      state: above_horizon
+      state: below_horizon
   action:
   - service: switch.turn_on
     target:
@@ -525,7 +529,7 @@
     id: motion
   condition:
   - condition: state
-    entity_id: input_select.house_mode
+    entity_id: sensor.home_mode
     state: home
   - condition: and
     conditions:
@@ -568,4 +572,53 @@
       entity_id: scene.bedroom_lights_off
     data:
       transition: 5
+  mode: restart
+- id: '1643403428879'
+  alias: Run Vacuum when Away
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.home_mode
+    to: away
+    id: away
+  - platform: time
+    at: 04:00:00
+    id: reset
+  - platform: state
+    entity_id: sensor.home_mode
+    id: return_home
+    from: away
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: away
+      - condition: state
+        entity_id: input_boolean.vacuum_has_run
+        state: 'off'
+      sequence:
+      - device_id: 90a48f20da662fdf57ea0a0502538732
+        domain: vacuum
+        entity_id: vacuum.sharkboy
+        type: clean
+      - service: input_boolean.turn_on
+        target:
+          entity_id: input_boolean.vacuum_has_run
+    - conditions:
+      - condition: trigger
+        id: reset
+      sequence:
+      - service: input_boolean.turn_off
+        target:
+          entity_id: input_boolean.vacuum_has_run
+    - conditions:
+      - condition: trigger
+        id: return_home
+      sequence:
+      - device_id: 90a48f20da662fdf57ea0a0502538732
+        domain: vacuum
+        entity_id: vacuum.sharkboy
+        type: dock
+    default: []
   mode: restart
