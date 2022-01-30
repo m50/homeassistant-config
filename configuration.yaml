@@ -1,37 +1,10 @@
-# Configure a default setup of Home Assistant (frontend, api, etc)
+#########################
+# General Configuration #
+#########################
 default_config:
 
 recorder:
   db_url: !secret db_url
-
-# Text to speech
-tts:
-- platform: google_translate
-
-automation ui: !include automations.yaml
-automation manual: !include_dir_merge_list includes/automations/
-script ui: !include scripts.yaml
-script manual: !include_dir_merge_list includes/scripts/
-scene ui: !include scenes.yaml
-scene manual: !include_dir_merge_list includes/scene/
-
-group: !include includes/groups.yaml
-sensor: !include includes/sensors.yaml
-switch: !include includes/switches.yaml
-binary_sensor: !include includes/binary_sensors.yaml
-camera: !include includes/camera.yaml
-media_player: !include includes/media_players.yaml
-template: !include includes/template_sensors.yaml
-
-http:
-  use_x_forwarded_for: true
-  trusted_proxies:
-    - 192.168.68.60
-  ip_ban_enabled: true
-  login_attempts_threshold: 5
-
-python_script:
-momentary:
 
 homeassistant:
   customize: !include includes/customize.yaml
@@ -39,25 +12,7 @@ homeassistant:
 frontend:
   themes: !include_dir_merge_named themes
 
-spotify:
-  client_id: !secret spotify_client_id
-  client_secret: !secret spotify_client_secret
-
 lovelace: !include includes/lovelace.yaml
-
-zha: !include includes/zha.yaml
-
-proxmoxve:
-- host: 192.168.68.254
-  username: ha
-  password: !secret proxmox_password
-  realm: pve
-  verify_ssl: false
-  nodes:
-  - node: atlas
-    vms:
-    - 100
-    - 101
 
 influxdb:
   host: 192.168.68.56
@@ -67,3 +22,43 @@ influxdb:
   password: ha-influxdb
   max_retries: 3
   default_measurement: state
+
+http:
+  use_x_forwarded_for: true
+  trusted_proxies:
+    - 192.168.68.60
+  ip_ban_enabled: true
+  login_attempts_threshold: 5
+
+tts:
+- platform: google_translate
+
+###############
+# Automations #
+###############
+automation ui: !include automations.yaml
+automation manual: !include_dir_merge_list includes/automations/
+script ui: !include scripts.yaml
+script manual: !include_dir_merge_list includes/scripts/
+scene ui: !include scenes.yaml
+scene manual: !include_dir_merge_list includes/scene/
+
+###############################
+# Manually Configured Sensors #
+###############################
+group: !include includes/groups.yaml
+sensor: !include includes/sensors.yaml
+switch: !include includes/switches.yaml
+binary_sensor: !include includes/binary_sensors.yaml
+camera: !include includes/camera.yaml
+media_player: !include includes/media_players.yaml
+template: !include includes/template_sensors.yaml
+browser_mod:
+  prefix: 'browser_mod_'
+python_script:
+momentary:
+zha: !include includes/zha.yaml
+proxmoxve: !include includes/proxmoxve.yaml
+spotify:
+  client_id: !secret spotify_client_id
+  client_secret: !secret spotify_client_secret

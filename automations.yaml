@@ -622,3 +622,38 @@
         type: dock
     default: []
   mode: restart
+- id: '1643506741806'
+  alias: Set Air Purifier Speeds
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.home_mode
+    to: night
+    id: sleep
+  - platform: state
+    entity_id: sensor.home_mode
+    from: night
+    id: awake
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: sleep
+      sequence:
+      - service: fan.set_preset_mode
+        target:
+          entity_id: fan.air_purifier
+        data:
+          preset_mode: sleep
+    - conditions:
+      - condition: trigger
+        id: awake
+      sequence:
+      - service: fan.set_speed
+        target:
+          entity_id: fan.air_purifier
+        data:
+          speed: '1'
+    default: []
+  mode: single

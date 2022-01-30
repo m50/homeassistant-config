@@ -1,0 +1,10 @@
+- host: 192.168.68.254
+  username: ha
+  password: !secret proxmox_password
+  realm: pve
+  verify_ssl: false
+  nodes:
+  - node: atlas
+    vms:
+    - 100
+    - 101
