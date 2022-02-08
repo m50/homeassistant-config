@@ -97,6 +97,12 @@ cards:
         type: custom:button-card
         template:
           - switch
+    - domain: fan
+      area: Bedroom
+      options:
+        type: custom:button-card
+        template:
+          - switch
     - domain: cover
       area: Bedroom
       name: '/^.*[Bb]linds$/'
