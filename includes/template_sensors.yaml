@@ -20,3 +20,7 @@
       {% else %}
         home
       {% endif %}
+  - name: "Bedroom Air Purifier Filter Life"
+    icon: 'mdi:air-filter'
+    state: >
+      {{ state_attr('fan.air_purifier', 'filter_life') }}
