@@ -106,13 +106,22 @@ circle:
                   transform-origin: 50% 50%;
                   stroke-dasharray: ${circumference};
                   stroke-dashoffset: ${circumference - input / 100 * circumference};
+                  stroke: currentColor;
+                  color: var(--text-primary-color);
+                }
+                text {
+                  fill: currentColor;
+                  color: var(--text-primary-color);
                 }
                 tspan {
                   font-size: 10px;
+                  fill: currentColor;
                 }
               </style>
-              <circle cx="25" cy="25" r="${radius}" stroke="#b2b2b2" stroke-width="1.5" fill="none" />
-              <text x="50%" y="54%" fill="#8d8e90" font-size="14" text-anchor="middle" alignment-baseline="middle" dominant-baseline="middle">${input}<tspan font-size="10">%</tspan></text>
+              <circle cx="25" cy="25" r="${radius}" stroke-width="1.5" fill="none" />
+              <text x="50%" y="54%" font-size="14" text-anchor="middle" alignment-baseline="middle" dominant-baseline="middle">
+                ${input}<tspan>%</tspan>
+              </text>
             </svg>
           `;
         }
@@ -179,6 +188,24 @@ light:
       [[[ return entity === undefined || Math.round(entity.attributes.brightness / 2.54); ]]]
 
 #################################################
+#                      FAN                      #
+#################################################
+
+fan:
+  tap_action:
+    action: toggle
+    haptic: medium
+  template:
+    - base
+    - circle
+    - loader
+    - icon_entity
+    - toggle_icon
+  variables:
+    circle_input: >
+      [[[ return entity === undefined || Math.round(entity.attributes.percentage); ]]]
+
+#################################################
 #                     SWITCH                    #
 #################################################
 
@@ -209,6 +236,8 @@ blind:
   variables:
     circle_input: >
       [[[ return entity === undefined || Math.round(entity.attributes.current_position); ]]]
+    state: >
+      [[[ return entity === undefined || entity.state === 'open' ? 'on' : 'off'; ]]]
 
 #################################################
 #                     Scene                     #
