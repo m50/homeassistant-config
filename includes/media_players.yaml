@@ -1,4 +1,0 @@
-- platform: androidtv
-  name: Fire TV
-  host: !secret firetv_ip
-  device_class: firetv
