@@ -1,0 +1,80 @@
+title: ''
+icon: mdi:toilet
+path: bathroom
+type: custom:grid-layout
+layout:
+  grid-gap: 10px
+  grid-template-columns: 1fr
+  grid-template-areas: |
+    "header"
+    ".     "
+cards:
+- type: custom:stack-in-card
+  view_layout:
+    grid-area: header
+  style: |
+    ha-card {
+      border-radius: 0;
+      margin-top: calc(var(--vertical-margin) * -2);
+      margin-left: calc(var(--horizontal-margin) * -3);
+      margin-right: calc(var(--horizontal-margin) * -3);
+      background: var(--sidebar-background-color);
+      color: var(--accent-color);
+      padding-bottom: 1rem;
+      padding-top: 1rem;
+      --primary-text-color: white;
+      --ha-card-box-shadow: none;
+      --ha-card-background: none;
+    }
+  cards:
+  - type: custom:layout-card
+    layout_type: custom:grid-layout
+    layout:
+      grid-template-columns: 2fr 1fr
+    cards:
+    - type: markdown
+      style: |
+        ha-card {
+          color: var(--light-primary-color);
+          box-shadow: none;
+          background: none;
+        }
+      content: |
+        # Bathroom
+    - type: markdown
+      content: "## "
+      style: |
+        ha-card {
+          color: var(--light-primary-color);
+          box-shadow: none;
+          background: none;
+          float: right;
+        }
+
+# Buttons
+- type: custom:auto-entities
+  show_empty: false
+  card:
+    type: custom:layout-card
+    layout_type: custom:grid-layout
+    layout:
+      grid-gap: 10px
+      grid-template-columns: repeat(3, 1fr)
+  card_param: cards
+  filter:
+    include:
+    - domain: light
+      area: Bathroom
+      options:
+        type: custom:button-card
+        template:
+          - light
+          - toggle_icon
+    - domain: switch
+      area: Bathroom
+      name: '/^(.*[lL]ight.*|.*[Cc]hristmas.*)$/'
+      options:
+        type: custom:button-card
+        template:
+          - switch
+          - toggle_icon

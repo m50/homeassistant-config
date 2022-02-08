@@ -657,3 +657,13 @@
           speed: low
     default: []
   mode: single
+- id: '1644266971206'
+  alias: Bathroom Light Switch
+  description: ''
+  use_blueprint:
+    path: bjpetit/zha_lutron_aurora_blueprint.yaml
+    input:
+      remote: acf6c4399c9108d1cefeaac61770da11
+      light:
+        entity_id: light.bathroom_lights
+      sensitivity: 1

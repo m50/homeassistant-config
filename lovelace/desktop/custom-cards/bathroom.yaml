@@ -1,0 +1,57 @@
+type: vertical-stack
+view_layout:
+  grid-area: bathroom
+cards:
+
+# Header
+- type: custom:layout-card
+  layout_type: custom:grid-layout
+  layout:
+    grid-gap: 10px
+    grid-template-columns: repeat(2, 1fr)
+  cards:
+  - type: markdown
+    content: |
+      # Bathroom
+    style: |
+      ha-card {
+        box-shadow: none;
+        background: none;
+      }
+  - type: markdown
+    content: |
+      ## 
+    style: |
+      ha-card {
+        float: right;
+        box-shadow: none;
+        background: none;
+      }
+
+# Buttons
+- type: custom:auto-entities
+  show_empty: false
+  card:
+    type: custom:layout-card
+    layout_type: custom:grid-layout
+    layout:
+      grid-gap: 10px
+      grid-template-columns: repeat(3, 1fr)
+  card_param: cards
+  filter:
+    include:
+    - domain: light
+      area: Bathroom
+      options:
+        type: custom:button-card
+        template:
+          - light
+          - toggle_icon
+    - domain: switch
+      area: Bathroom
+      name: '/^(.*[lL]ight.*|.*[Cc]hristmas.*)$/'
+      options:
+        type: custom:button-card
+        template:
+          - switch
+          - toggle_icon

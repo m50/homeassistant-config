@@ -23,12 +23,14 @@ cards:
     grid-gap: 10px
     grid-template-columns: 1fr 1fr 1fr
     grid-template-areas: |
-      "bedroom livingroom kitchen"
-      "bedroom study      hallway"
+      "bedroom livingroom kitchen "
+      "bedroom study      hallway "
+      "bedroom study      bathroom"
   cards:
     - !include ../custom-cards/kitchen.yaml
     - !include ../custom-cards/study.yaml
     - !include ../custom-cards/hallway.yaml
     - !include ../custom-cards/bedroom.yaml
     - !include ../custom-cards/living-room.yaml
+    - !include ../custom-cards/bathroom.yaml
 
