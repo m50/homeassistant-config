@@ -13,7 +13,7 @@
     state: >
       {% if not is_state('media_player.fire_tv', 'off') %}
         tv
-      {% elif not is_state('person.marisa', 'home') %}
+      {% elif not is_state('person.marisa', 'home') and not is_state('input_boolean.guest_mode', 'on') %}
         away
       {% elif now() > today_at("23:00") or now() < today_at("07:00") %}
         night

@@ -15,91 +15,91 @@ style: |
     padding: var(--vertical-margin);
   }
 cards:
-- type: custom:layout-card
-  layout_type: custom:grid-layout
-  layout:
-    grid-gap: 10px
-    grid-template-columns: repeat(2, 1fr)
-  cards:
-  - type: markdown
-    content: |
-      # {{ as_timestamp(now()) | timestamp_custom("%I:%M %p") }}
+  - type: custom:layout-card
+    layout_type: custom:grid-layout
+    layout:
+      grid-gap: 10px
+      grid-template-columns: repeat(2, 1fr)
+    cards:
+      - type: markdown
+        content: |
+          # {{ as_timestamp(now()) | timestamp_custom("%I:%M %p") }}
+        style: |
+          ha-card {
+            --primary-text-color: var(--light-primary-color);
+            box-shadow: none;
+            background: none;
+          }
+      - type: markdown
+        content: |
+          # {{ states('sensor.average_temperature') }}°
+        style: |
+          ha-card {
+            --primary-text-color: var(--light-primary-color);
+            float: right;
+            box-shadow: none;
+            background: none;
+          }
+  - type: custom:search-card
     style: |
       ha-card {
-        --primary-text-color: var(--light-primary-color);
         box-shadow: none;
         background: none;
       }
-  - type: markdown
-    content: |
-      # {{ states('sensor.average_temperature') }}°
-    style: |
-      ha-card {
-        --primary-text-color: var(--light-primary-color);
-        float: right;
-        box-shadow: none;
-        background: none;
-      }
-- type: custom:search-card
-  style: |
-    ha-card {
-      box-shadow: none;
-      background: none;
-    }
 
-- type: entities
-  entities: 
-    - sensor.home_mode
-  style: |
-    ha-card {
-      --primary-text-color: var(--light-primary-color);
-      --secondary-text-color: var(--light-primary-color);
-      box-shadow: none;
-      background: none;
-    }
-
-- type: weather-forecast
-  style: |
-    ha-card {
-      --primary-text-color: var(--light-primary-color);
-      --secondary-text-color: var(--light-primary-color);
-      box-shadow: none;
-      background: none;
-    }
-  entity: weather.home
-
-- type: custom:mini-media-player
-  entity: media_player.study
-  toggle_power: true
-  volume_stateless: false
-  group: true
-  sound_mode: icon
-  source: icon
-  info: scroll
-  speaker_group:
-    platform: sonos
+  - type: entities
     entities:
-      - entity_id: media_player.study
-        name: Study
-      - entity_id: media_player.kitchen
-        name: Kitchen
-      - entity_id: media_player.bedroom
-        name: Bedroom
-      - entity_id: media_player.bathroom
-        name: Bathroom
-  artwork: cover
+      - sensor.home_mode
+    style: |
+      ha-card {
+        --primary-text-color: var(--light-primary-color);
+        --secondary-text-color: var(--light-primary-color);
+        box-shadow: none;
+        background: none;
+      }
 
-- type: custom:simple-thermostat
-  entity: climate.thermostat
-  layout:
-    step: row
-  step_size: 1
-  header: false
-  style: |
-    ha-card.no-header {
-      box-shadow: none;
-      background: none;
-      --heat-color: var(--tertiary-color)
-    }
-  control:
-    - hvac
+  - type: weather-forecast
+    style: |
+      ha-card {
+        --primary-text-color: var(--light-primary-color);
+        --secondary-text-color: var(--light-primary-color);
+        box-shadow: none;
+        background: none;
+      }
+    entity: weather.home
+
+  - type: custom:mini-media-player
+    entity: media_player.study
+    toggle_power: true
+    volume_stateless: false
+    group: true
+    sound_mode: icon
+    source: icon
+    info: scroll
+    speaker_group:
+      platform: sonos
+      entities:
+        - entity_id: media_player.study
+          name: Study
+        - entity_id: media_player.kitchen
+          name: Kitchen
+        - entity_id: media_player.bedroom
+          name: Bedroom
+        - entity_id: media_player.bathroom
+          name: Bathroom
+    artwork: cover
+
+  - type: custom:simple-thermostat
+    entity: climate.thermostat
+    layout:
+      step: row
+    step_size: 1
+    header: false
+    style: |
+      ha-card.no-header {
+        box-shadow: none;
+        background: none;
+        --heat-color: var(--tertiary-color)
+      }
+    control:
+      - hvac

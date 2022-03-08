@@ -55,3 +55,9 @@ cards:
         template:
           - switch
           - toggle_icon
+    - domain: input_boolean
+      options:
+        type: custom:button-card
+        template:
+          - switch
+          - toggle_icon
