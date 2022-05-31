@@ -9,6 +9,7 @@
     - sensor.living_room_weather_2_temperature
     - sensor.study_temperature
     - sensor.bedroom_temperature
+    - sensor.bathroom_motion_temperature
 - platform: min_max
   name: Avg Living Room Temperature
   type: mean

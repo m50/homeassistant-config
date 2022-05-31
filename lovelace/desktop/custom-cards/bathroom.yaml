@@ -20,7 +20,7 @@ cards:
       }
   - type: markdown
     content: |
-      ## 
+      ## {{ states('sensor.bathroom_motion_temperature') }}°
     style: |
       ha-card {
         float: right;

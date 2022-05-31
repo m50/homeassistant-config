@@ -382,8 +382,8 @@
   trigger:
   - platform: sun
     event: sunrise
+    offset: 0
     id: sunrise
-    offset: '-45'
   - platform: sun
     event: sunset
     id: sunset
@@ -397,6 +397,7 @@
       - service: cover.open_cover
         target:
           area_id: bedroom
+        data: {}
     - conditions:
       - condition: trigger
         id: sunset
@@ -404,6 +405,7 @@
       - service: cover.close_cover
         target:
           area_id: bedroom
+        data: {}
     default: []
   mode: single
 - id: '1638224503187'
@@ -573,55 +575,6 @@
     data:
       transition: 5
   mode: restart
-- id: '1643403428879'
-  alias: Run Vacuum when Away
-  description: ''
-  trigger:
-  - platform: state
-    entity_id: sensor.home_mode
-    to: away
-    id: away
-  - platform: time
-    at: 04:00:00
-    id: reset
-  - platform: state
-    entity_id: sensor.home_mode
-    id: return_home
-    from: away
-  condition: []
-  action:
-  - choose:
-    - conditions:
-      - condition: trigger
-        id: away
-      - condition: state
-        entity_id: input_boolean.vacuum_has_run
-        state: 'off'
-      sequence:
-      - device_id: 90a48f20da662fdf57ea0a0502538732
-        domain: vacuum
-        entity_id: vacuum.sharkboy
-        type: clean
-      - service: input_boolean.turn_on
-        target:
-          entity_id: input_boolean.vacuum_has_run
-    - conditions:
-      - condition: trigger
-        id: reset
-      sequence:
-      - service: input_boolean.turn_off
-        target:
-          entity_id: input_boolean.vacuum_has_run
-    - conditions:
-      - condition: trigger
-        id: return_home
-      sequence:
-      - device_id: 90a48f20da662fdf57ea0a0502538732
-        domain: vacuum
-        entity_id: vacuum.sharkboy
-        type: dock
-    default: []
-  mode: restart
 - id: '1643506741806'
   alias: Set Air Purifier Speeds
   description: ''
@@ -667,3 +620,13 @@
       light:
         entity_id: light.bathroom_lights
       sensitivity: 1
+- id: '1653887248999'
+  alias: Bathroom Motion Lights
+  description: ''
+  use_blueprint:
+    path: homeassistant/motion_light.yaml
+    input:
+      motion_entity: binary_sensor.bathroom_motion_ias_zone
+      light_target:
+        entity_id: light.bathroom_lights
+      no_motion_wait: 10

@@ -42,7 +42,7 @@ cards:
       content: |
         # Bathroom
     - type: markdown
-      content: "## "
+      content: "## {{ states('sensor.bathroom_motion_temperature') }}°"
       style: |
         ha-card {
           color: var(--light-primary-color);
